@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-template",
+  "name": "cordova-plugin-notifications",
   "version": "1.0.0",
-  "description": "cordova custom plugin template",
+  "description": "cordova custom plugin notifications",
   "cordova": {
-    "id": "cordova-plugin-template",
+    "id": "cordova-plugin-notifications",
     "platforms": [
       "android"
     ]
