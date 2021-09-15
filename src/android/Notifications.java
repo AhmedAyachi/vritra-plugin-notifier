@@ -5,6 +5,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Action;
 import androidx.core.app.NotificationManagerCompat;
 import android.app.NotificationManager;
 import android.app.NotificationChannel;
@@ -18,6 +19,7 @@ import android.content.Context;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Bitmap;
 import android.content.pm.ApplicationInfo;
@@ -55,14 +57,11 @@ public class Notifications extends CordovaPlugin{
                     this.setTitle();
                     this.setText();
 
-                    final Intent intent=new Intent(context,CordovaActivity.class);//(activity,AlertDetails.class);
-                    intent.setAction(Intent.ACTION_MAIN);
-                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    final Intent intent=new Intent(context,activity.getClass());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
-                    builder.setContentIntent(pendingIntent).setAutoCancel(true).
-                    addAction(R.drawable.edit_text,"yes",pendingIntent).
-                    addAction(R.drawable.edit_text,"no",pendingIntent);
+                    builder.setContentIntent(pendingIntent).setAutoCancel(true);
+                    this.setActions();
                     
                     NotificationManagerCompat notificationManager=NotificationManagerCompat.from(activity);
                     notificationManager.notify(id.intValue(),builder.build());
@@ -128,6 +127,33 @@ public class Notifications extends CordovaPlugin{
                 if(text!=null){
                     builder.setContentText(text);
                 }
+            }
+
+            private void setActions(){
+                JSONArray actions=null;
+                try{
+                    actions=options.getJSONArray("actions");
+                    int length=actions.length();
+                    if(length>0){
+                        final Intent intent=new Intent(context,AlertDetails.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
+                        for(int i=0;i<length;i++){
+                            final JSONObject action=actions.getJSONObject(i);
+                            final String label=action.getString("label");
+                            Integer iconkey=null;
+                            try{
+                                iconkey=action.getInt("icon");
+                            }
+                            catch(JSONException exception){
+                                iconkey=1;
+                            };
+                            final Action.Builder actionbuilder=new Action.Builder(iconkey.intValue(),label,pendingIntent);
+                            builder.addAction(actionbuilder.build());
+                        }
+                    }
+                }
+                catch(JSONException exception){}
             }
         });
     }
