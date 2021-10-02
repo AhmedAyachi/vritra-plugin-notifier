@@ -9,10 +9,11 @@ import androidx.core.app.NotificationCompat.Action;
 import androidx.core.app.NotificationManagerCompat;
 import android.app.NotificationManager;
 import android.app.NotificationChannel;
+import androidx.core.app.TaskStackBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import com.ahmedayachi.alertdetails.AlertDetails;
+import com.ahmedayachi.notifications.TapHandler;
 import android.R;
 import android.os.Build;
 import android.content.Context;
@@ -28,9 +29,10 @@ import android.content.pm.ApplicationInfo;
 public class Notifications extends CordovaPlugin{
 
     static String channelId="channelId";
-
+    public static CallbackContext callback;
     @Override
     public boolean execute(String action,JSONArray args,CallbackContext callbackContext) throws JSONException{
+        Notifications.callback=callbackContext;
         if(action.equals("create")) {
             JSONObject options=args.getJSONObject(0);
             this.create(options,callbackContext);
@@ -57,15 +59,19 @@ public class Notifications extends CordovaPlugin{
                     this.setTitle();
                     this.setText();
 
-                    final Intent intent=new Intent(context,activity.getClass());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
+                    final Intent openintent=new Intent(context,activity.getClass());
+                    openintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    openintent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    openintent.setAction(Intent.ACTION_MAIN);
+                    final Intent notiintent=new Intent(activity,TapHandler.class);
+                    notiintent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    final Intent[] intents={openintent,notiintent};
+                    final PendingIntent pendingIntent=PendingIntent.getActivities(activity,0,intents,PendingIntent.FLAG_CANCEL_CURRENT);
                     builder.setContentIntent(pendingIntent).setAutoCancel(true);
                     this.setActions();
                     
                     NotificationManagerCompat notificationManager=NotificationManagerCompat.from(activity);
                     notificationManager.notify(id.intValue(),builder.build());
-                    callbackContext.success();
                 }
                 catch(JSONException exception){}
             }
@@ -135,7 +141,7 @@ public class Notifications extends CordovaPlugin{
                     actions=options.getJSONArray("actions");
                     int length=actions.length();
                     if(length>0){
-                        final Intent intent=new Intent(context,AlertDetails.class);
+                        final Intent intent=new Intent(context,TapHandler.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
                         for(int i=0;i<length;i++){

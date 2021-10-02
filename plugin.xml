@@ -17,9 +17,8 @@
                 <param name="android-package" value="com.ahmedayachi.notifications.Notifications" />
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/Notifications.java" target-dir="src/com/ahmedayachi/notifications/Notifications"/>
-        <source-file src="src/android/AlertDetails.java" target-dir="src/com/ahmedayachi/alertdetails/AlertDetails"/>
+        <source-file src="src/android/TapHandler.java" target-dir="src/com/ahmedayachi/notifications/TapHandler"/>
     </platform>
 
     <platform name="browser">
