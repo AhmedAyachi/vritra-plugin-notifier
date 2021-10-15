@@ -43,7 +43,7 @@ public class Notifier extends CordovaPlugin{
             public void run(){
                 try{
                     final Notification notification=new Notification(activity,props);
-                    
+
                 }
                 catch(JSONException exception){}
             }
@@ -52,7 +52,7 @@ public class Notifier extends CordovaPlugin{
 
     private void createNotificationChannel(){
         final AppCompatActivity activity=cordova.getActivity();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
             CharSequence name="name";
             String description="description";
             int importance=NotificationManager.IMPORTANCE_DEFAULT;

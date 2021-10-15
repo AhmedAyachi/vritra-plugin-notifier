@@ -36,16 +36,15 @@ public class Notification{
         intent.setAction(Intent.ACTION_MAIN);
         final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(pendingIntent).setAutoCancel(true);
-        this.setActions();
+        //this.setActions();
         
-        NotificationManagerCompat notificationManager=NotificationManagerCompat.from(activity);
+        final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(activity);
         notificationManager.notify(id.intValue(),builder.build());
     }
 
     private void setSmallIcon(){
-        String icon;
         try{
-            icon=props.getString("icon");
+            String icon=props.getString("icon");
         }
         catch(JSONException exception){
             builder.setSmallIcon(Notifier.appinfo.icon);
@@ -62,25 +61,19 @@ public class Notification{
     }
 
     private void setTitle(){
-        String title=null;
         try{
-            title=props.getString("title");
-        }
-        catch(JSONException exception){}
-        if(title!=null){
+            String title=props.getString("title");
             builder.setContentTitle(title);
         }
+        catch(JSONException exception){}
     }
 
     private void setText(){
-        String text=null;
         try{
-            text=props.getString("text");
-        }
-        catch(JSONException exception){}
-        if(text!=null){
+            String text=props.getString("text");
             builder.setContentText(text);
         }
+        catch(JSONException exception){}
     }
 
     private void setActions(){
@@ -89,7 +82,7 @@ public class Notification{
             actions=props.getJSONArray("actions");
             int length=actions.length();
             if(length>0){
-                final Intent intent=new Intent(activity,TapHandler.class);
+                final Intent intent=new Intent(activity,activity.getClass());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
                 for(int i=0;i<length;i++){
