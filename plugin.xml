@@ -7,7 +7,7 @@
 >
     <name>Notifier</name>
 
-    <js-module name="notifier" src="www/Notifier.js">
+    <js-module name="notifier" src="www/index.js">
         <clobbers target="Notifier"/>
     </js-module>
 

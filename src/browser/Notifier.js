@@ -2,7 +2,7 @@ const proxy=require("cordova/exec/proxy");
 
 
 module.exports={
-    create:()=>{
+    notify:()=>{
         console.log("browser not supported");
     },
 }

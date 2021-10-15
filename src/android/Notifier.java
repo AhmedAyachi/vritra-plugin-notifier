@@ -28,20 +28,18 @@ import android.content.pm.ApplicationInfo;
 
 public class Notifier extends CordovaPlugin{
 
-    static String channelId="channelId";
-    public static CallbackContext callback;
+    static final String channelId="channelId";
     @Override
     public boolean execute(String action,JSONArray args,CallbackContext callbackContext) throws JSONException{
-        Notifier.callback=callbackContext;
-        if(action.equals("create")) {
+        if(action.equals("notify")) {
             JSONObject options=args.getJSONObject(0);
-            this.create(options,callbackContext);
+            this.notify(options,callbackContext);
             return true;
         }
         return false;
     }
 
-    private void create(JSONObject options,CallbackContext callbackContext) throws JSONException{
+    private void notify(JSONObject options,CallbackContext callbackContext) throws JSONException{
         final Activity activity=cordova.getActivity();
         final Context context=cordova.getContext();
         final ApplicationInfo appinfo=context.getApplicationInfo();
@@ -60,13 +58,12 @@ public class Notifier extends CordovaPlugin{
                     this.setText();
 
                     final Intent openintent=new Intent(context,activity.getClass());
-                    openintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     openintent.addCategory(Intent.CATEGORY_LAUNCHER);
                     openintent.setAction(Intent.ACTION_MAIN);
-                    final Intent notiintent=new Intent(activity,TapHandler.class);
+                    /*final Intent notiintent=new Intent(activity,TapHandler.class);
                     notiintent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    final Intent[] intents={openintent,notiintent};
-                    final PendingIntent pendingIntent=PendingIntent.getActivities(activity,0,intents,PendingIntent.FLAG_CANCEL_CURRENT);
+                    final Intent[] intents={openintent,notiintent};*/
+                    final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,openintent,PendingIntent.FLAG_CANCEL_CURRENT);
                     builder.setContentIntent(pendingIntent).setAutoCancel(true);
                     this.setActions();
                     

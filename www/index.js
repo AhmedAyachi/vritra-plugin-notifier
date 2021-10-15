@@ -2,8 +2,8 @@ const exec=require("cordova/exec");
 
 
 module.exports={
-    create:(options)=>{
+    notify:(options)=>{
         const {onCreated,onTap}=options;
-        exec(onCreated,onTap,"Notifier","create",[options]);
+        exec(onCreated,onTap,"Notifier","notify",[options]);
     },
 };
