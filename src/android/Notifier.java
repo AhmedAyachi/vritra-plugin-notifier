@@ -1,4 +1,4 @@
-package com.ahmedayachi.notifications;
+package com.ahmedayachi.notifier;
 
 import android.app.Activity;
 import org.apache.cordova.CallbackContext;
@@ -13,7 +13,7 @@ import androidx.core.app.TaskStackBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import com.ahmedayachi.notifications.TapHandler;
+import com.ahmedayachi.notifier.TapHandler;
 import android.R;
 import android.os.Build;
 import android.content.Context;
@@ -26,13 +26,13 @@ import android.graphics.Bitmap;
 import android.content.pm.ApplicationInfo;
 
 
-public class Notifications extends CordovaPlugin{
+public class Notifier extends CordovaPlugin{
 
     static String channelId="channelId";
     public static CallbackContext callback;
     @Override
     public boolean execute(String action,JSONArray args,CallbackContext callbackContext) throws JSONException{
-        Notifications.callback=callbackContext;
+        Notifier.callback=callbackContext;
         if(action.equals("create")) {
             JSONObject options=args.getJSONObject(0);
             this.create(options,callbackContext);

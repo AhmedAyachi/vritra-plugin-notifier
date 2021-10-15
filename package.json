@@ -1,9 +1,10 @@
 {
-  "name": "cordova-plugin-notifications",
+  "name": "cordova-plugin-notifier",
   "version": "1.0.0",
-  "description": "cordova custom plugin notifications",
+  "description": "cordova custom plugin notifier",
+  "types": "index.d.ts",
   "cordova": {
-    "id": "cordova-plugin-notifications",
+    "id": "cordova-plugin-notifier",
     "platforms": [
       "android"
     ]

@@ -7,4 +7,4 @@ module.exports={
     },
 }
 
-proxy.add("Notifications",module.exports);
+proxy.add("Notifier",module.exports);
