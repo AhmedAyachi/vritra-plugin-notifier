@@ -51,13 +51,16 @@ public class Notification{
         }
     }
 
-    private void setLargeIcon() throws JSONException{
-        String icon=props.getString("largeIcon");
-        if(icon.equals("appIcon")){
-            final Drawable drawable=Notifier.appinfo.loadIcon(Notifier.context.getPackageManager());
-            final Bitmap bitMapIcon=((BitmapDrawable)drawable).getBitmap();
-            builder.setLargeIcon(bitMapIcon);
+    private void setLargeIcon(){
+        try{
+            String icon=props.getString("largeIcon");
+            if(icon.equals("appIcon")){
+                final Drawable drawable=Notifier.appinfo.loadIcon(Notifier.context.getPackageManager());
+                final Bitmap bitMapIcon=((BitmapDrawable)drawable).getBitmap();
+                builder.setLargeIcon(bitMapIcon);
+            }
         }
+        catch(JSONException exception){}
     }
 
     private void setTitle(){

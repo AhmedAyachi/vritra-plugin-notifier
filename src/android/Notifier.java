@@ -23,6 +23,7 @@ public class Notifier extends CordovaPlugin{
     public void initialize(CordovaInterface cordova,CordovaWebView webView){
         Notifier.context=cordova.getContext();
         Notifier.appinfo=Notifier.context.getApplicationInfo();
+        this.createNotificationChannel();
     }
 
     @Override
@@ -37,8 +38,6 @@ public class Notifier extends CordovaPlugin{
 
     private void notify(JSONObject props,CallbackContext callbackContext) throws JSONException{
         final AppCompatActivity activity=cordova.getActivity();
-        
-        this.createNotificationChannel();
         this.cordova.getThreadPool().execute(new Runnable(){
             public void run(){
                 try{
