@@ -18,7 +18,7 @@
             </feature>
         </config-file>
         <source-file src="src/android/Notifier.java" target-dir="src/com/ahmedayachi/notifier/Notifier"/>
-        <source-file src="src/android/TapHandler.java" target-dir="src/com/ahmedayachi/notifier/TapHandler"/>
+        <source-file src="src/android/Notification.java" target-dir="src/com/ahmedayachi/notifier/Notification"/>
     </platform>
 
     <platform name="browser">
