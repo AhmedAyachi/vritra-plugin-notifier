@@ -2,6 +2,7 @@ package com.ahmedayachi.notifier;
 
 import com.ahmedayachi.notifier.Notifier;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.json.JSONException;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.Action;
@@ -19,7 +20,9 @@ import java.io.FileDescriptor;
 
 public class Notification{
 
-    
+    private JSONObject props=null;
+    private NotificationCompat.Builder builder=null;
+    private AppCompatActivity activity=null;
     public Notification(AppCompatActivity activity,JSONObject props) throws JSONException{
         this.props=props;
         this.activity=activity;
@@ -30,13 +33,10 @@ public class Notification{
         this.setLargeIcon();
         this.setTitle();
         this.setText();
-        final Intent openintent=new Intent(context,activity.getClass());
-        openintent.addCategory(Intent.CATEGORY_LAUNCHER);
-        openintent.setAction(Intent.ACTION_MAIN);
-        /*final Intent notiintent=new Intent(activity,TapHandler.class);
-        notiintent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        final Intent[] intents={openintent,notiintent};*/
-        final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,openintent,PendingIntent.FLAG_CANCEL_CURRENT);
+        final Intent intent=new Intent(activity,activity.getClass());
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setAction(Intent.ACTION_MAIN);
+        final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(pendingIntent).setAutoCancel(true);
         this.setActions();
         

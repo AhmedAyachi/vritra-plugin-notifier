@@ -13,7 +13,6 @@ import androidx.core.app.TaskStackBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import com.ahmedayachi.notifier.TapHandler;
 import android.R;
 import android.os.Build;
 import android.content.Context;
