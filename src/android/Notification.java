@@ -1,9 +1,9 @@
 package com.ahmedayachi.notifier;
 
+import com.ahmedayachi.notifier.Notifier;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
-import com.ahmedayachi.notifier.Notifier;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.Action;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +11,9 @@ import androidx.core.app.NotificationManagerCompat;
 import android.content.Intent;
 import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Bitmap;
+import androidx.core.graphics.drawable.IconCompat;
 
 
 public class Notification{
@@ -24,7 +24,7 @@ public class Notification{
     public Notification(AppCompatActivity activity,JSONObject props) throws JSONException{
         this.props=props;
         this.activity=activity;
-        Integer id=props.getInt("id");
+        int id=props.getInt("id");
         this.builder=new NotificationCompat.Builder(activity,Notifier.channelId);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         this.setSmallIcon();
@@ -36,15 +36,17 @@ public class Notification{
         intent.setAction(Intent.ACTION_MAIN);
         final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(pendingIntent).setAutoCancel(true);
-        //this.setActions();
+        this.setActions();
         
         final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(activity);
-        notificationManager.notify(id.intValue(),builder.build());
+        notificationManager.notify(id,builder.build());
     }
 
     private void setSmallIcon(){
         try{
-            String icon=props.getString("icon");
+            String url=props.getString("icon");
+            IconCompat icon=IconCompat.createWithContentUri(url);
+            builder.setSmallIcon(icon);
         }
         catch(JSONException exception){
             builder.setSmallIcon(Notifier.appinfo.icon);
