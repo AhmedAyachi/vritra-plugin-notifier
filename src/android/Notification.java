@@ -1,6 +1,7 @@
 package com.ahmedayachi.notifier;
 
 import com.ahmedayachi.notifier.Notifier;
+import com.ahmedayachi.notifier.Asset;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,8 +15,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Bitmap;
 import androidx.core.graphics.drawable.IconCompat;
-import android.os.ParcelFileDescriptor;
-import java.io.FileDescriptor;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 
 public class Notification{
@@ -23,6 +24,7 @@ public class Notification{
     private JSONObject props=null;
     private NotificationCompat.Builder builder=null;
     private AppCompatActivity activity=null;
+
     public Notification(AppCompatActivity activity,JSONObject props) throws JSONException{
         this.props=props;
         this.activity=activity;
@@ -45,14 +47,28 @@ public class Notification{
     }
 
     private void setSmallIcon(){
+        boolean set=false;
         try{
-            String url=props.getString("icon");
-            ParcelFileDescriptor parcelFileDescriptor=resolver.openFileDescriptor(url,"r");
-            FileDescriptor fileDescriptor=parcelFileDescriptor.getFileDescriptor();
-            final Bitmap bitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor);
-            parcelFileDescriptor.close();   
-            IconCompat icon=IconCompat.createWithBitmap(bitmap);
-            builder.setSmallIcon(icon);
+            String path=props.getString("icon");
+            if(path.startsWith("data:")){
+                path=path.substring(path.indexOf(",")+1);
+                byte[] decoded=Base64.decode(path,Base64.DEFAULT);
+                final Bitmap bitmap=BitmapFactory.decodeByteArray(decoded,0,decoded.length);
+                if(bitmap!=null){
+                    set=true;
+                    builder.setSmallIcon(IconCompat.createWithBitmap(bitmap));
+                }
+            }
+            else if(path.startsWith("file:///android_asset")){
+                IconCompat icon=new Asset(path).toIconCompat();
+                if(icon!=null){
+                    set=true;
+                    builder.setSmallIcon(icon);
+                }
+            }
+            if(!set){
+                builder.setSmallIcon(Notifier.appinfo.icon);
+            }
         }
         catch(JSONException exception){
             builder.setSmallIcon(Notifier.appinfo.icon);
