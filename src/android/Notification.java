@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import androidx.core.graphics.drawable.IconCompat;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.graphics.Bitmap;
 
 
 public class Notification{
@@ -50,24 +51,12 @@ public class Notification{
         boolean set=false;
         try{
             String path=props.getString("icon");
-            if(path.startsWith("data:")){
-                path=path.substring(path.indexOf(",")+1);
-                byte[] decoded=Base64.decode(path,Base64.DEFAULT);
-                final Bitmap bitmap=BitmapFactory.decodeByteArray(decoded,0,decoded.length);
-                if(bitmap!=null){
-                    set=true;
-                    builder.setSmallIcon(IconCompat.createWithBitmap(bitmap));
-                }
-            }
-            else if(path.startsWith("file:///android_asset")){
-                IconCompat icon=new Asset(path).toIconCompat();
-                if(icon!=null){
-                    set=true;
-                    builder.setSmallIcon(icon);
-                }
-            }
-            if(!set){
+            Bitmap bitmap=this.getBitmapIcon(path);
+            if(bitmap==null){
                 builder.setSmallIcon(Notifier.appinfo.icon);
+            }
+            else{
+                builder.setSmallIcon(IconCompat.createWithBitmap(bitmap));
             }
         }
         catch(JSONException exception){
@@ -77,14 +66,34 @@ public class Notification{
 
     private void setLargeIcon(){
         try{
-            String icon=props.getString("largeIcon");
-            if(icon.equals("appIcon")){
+            String path=props.getString("largeIcon");
+            if(path.equals("appIcon")){
                 final Drawable drawable=Notifier.appinfo.loadIcon(Notifier.context.getPackageManager());
                 final Bitmap bitMapIcon=((BitmapDrawable)drawable).getBitmap();
                 builder.setLargeIcon(bitMapIcon);
             }
+            else{
+                Bitmap bitmap=this.getBitmapIcon(path);
+                if(bitmap!=null){
+                    builder.setLargeIcon(bitmap);
+                }
+            }
         }
         catch(JSONException exception){}
+    }
+
+    private Bitmap getBitmapIcon(String path){
+        Bitmap bitmap=null;
+        if(path.startsWith("data:")){
+            path=path.substring(path.indexOf(",")+1);
+            byte[] decoded=Base64.decode(path,Base64.DEFAULT);
+            bitmap=BitmapFactory.decodeByteArray(decoded,0,decoded.length);
+        }
+        else if(path.startsWith("file:///android_asset")){
+            bitmap=new Asset(path).toBitmap();
+        }
+
+        return bitmap;
     }
 
     private void setTitle(){
