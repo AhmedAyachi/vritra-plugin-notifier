@@ -46,7 +46,8 @@ public class Notification{
 
     private void setSmallIcon(){
         try{
-            ParcelFileDescriptor parcelFileDescriptor=resolver.openFileDescriptor(uri,"r");
+            String url=props.getString("icon");
+            ParcelFileDescriptor parcelFileDescriptor=resolver.openFileDescriptor(url,"r");
             FileDescriptor fileDescriptor=parcelFileDescriptor.getFileDescriptor();
             final Bitmap bitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor);
             parcelFileDescriptor.close();   
