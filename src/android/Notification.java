@@ -13,6 +13,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Bitmap;
 import androidx.core.graphics.drawable.IconCompat;
+import android.os.ParcelFileDescriptor;
+import java.io.FileDescriptor;
 
 
 public class Notification{
@@ -44,8 +46,11 @@ public class Notification{
 
     private void setSmallIcon(){
         try{
-            String url=props.getString("icon");
-            IconCompat icon=IconCompat.createWithContentUri(url);
+            ParcelFileDescriptor parcelFileDescriptor=resolver.openFileDescriptor(uri,"r");
+            FileDescriptor fileDescriptor=parcelFileDescriptor.getFileDescriptor();
+            final Bitmap bitmap=BitmapFactory.decodeFileDescriptor(fileDescriptor);
+            parcelFileDescriptor.close();   
+            IconCompat icon=IconCompat.createWithBitmap(bitmap);
             builder.setSmallIcon(icon);
         }
         catch(JSONException exception){
