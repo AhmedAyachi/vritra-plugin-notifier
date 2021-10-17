@@ -21,7 +21,7 @@ import android.graphics.Color;
 public class Notification{
 
     private JSONObject props=null;
-    protected static final JSONObject callback=new JSONObject();
+    protected static final JSONObject callbacks=new JSONObject();
     private final NotificationCompat.Builder builder=new NotificationCompat.Builder(Notifier.context,Notifier.channelId);
     protected static final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(Notifier.context);
     int id;
@@ -117,7 +117,7 @@ public class Notification{
                     final JSONObject options=actions.getJSONObject(i);
                     options.put("notificationId",id);
                     final Action action=new Action(options);
-                    callback.put(action.getId(),callbackcontext);
+                    callbacks.put(action.getId(),callbackcontext);
                     action.addTo(builder);
                 }
             }

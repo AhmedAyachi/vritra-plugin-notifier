@@ -16,10 +16,10 @@ public class ActionListener extends BroadcastReceiver{
         String id=intent.getStringExtra("id");
         int notificationId=intent.getIntExtra("notificationId",-7);
         try{
-            CallbackContext callback=(CallbackContext)Notification.callback.get(id);
+            CallbackContext callback=(CallbackContext)Notification.callbacks.get(id);
             callback.success(id);
             Notification.notificationManager.cancel(notificationId);
-            Notification.callback.remove(id);
+            Notification.callbacks.remove(id);
         }
         catch(JSONException exception){}
         
