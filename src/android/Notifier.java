@@ -2,6 +2,7 @@ package com.ahmedayachi.notifier;
 
 import org.apache.cordova.*;
 import com.ahmedayachi.notifier.Notification;
+import com.ahmedayachi.notifier.Asset;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.app.NotificationManager;
@@ -11,6 +12,9 @@ import org.json.JSONObject;
 import org.json.JSONException;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.util.Base64;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 
 public class Notifier extends CordovaPlugin{
@@ -62,6 +66,19 @@ public class Notifier extends CordovaPlugin{
             NotificationManager notificationManager=activity.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    static protected Bitmap getBitmapIcon(String path){
+        Bitmap bitmap=null;
+        if(path.startsWith("data:")){
+            path=path.substring(path.indexOf(",")+1);
+            byte[] decoded=Base64.decode(path,Base64.DEFAULT);
+            bitmap=BitmapFactory.decodeByteArray(decoded,0,decoded.length);
+        }
+        else if(path.startsWith("file:///android_asset")){
+            bitmap=new Asset(path).toBitmap();
+        }
+        return bitmap;
     }
     
 }

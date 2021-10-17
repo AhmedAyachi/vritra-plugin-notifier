@@ -20,6 +20,7 @@
         <source-file src="src/android/Notifier.java" target-dir="src/com/ahmedayachi/notifier/Notifier"/>
         <source-file src="src/android/Notification.java" target-dir="src/com/ahmedayachi/notifier/Notification"/>
         <source-file src="src/android/Asset.java" target-dir="src/com/ahmedayachi/notifier/Asset"/>
+        <source-file src="src/android/Action.java" target-dir="src/com/ahmedayachi/notifier/Action"/>
     </platform>
 
     <platform name="browser">

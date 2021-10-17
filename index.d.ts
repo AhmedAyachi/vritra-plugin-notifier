@@ -8,9 +8,10 @@ interface Notifier{
         smallIcon:number,
         largeIcon:number,
         actions:[{
-            id:number,
+            id:string|number,
+            type:"button"|"input",
             label:string,
-            icon:number,
+            icon:string,
         }],
 
     }):void,

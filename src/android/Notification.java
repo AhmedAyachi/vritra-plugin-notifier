@@ -1,29 +1,25 @@
 package com.ahmedayachi.notifier;
 
 import com.ahmedayachi.notifier.Notifier;
-import com.ahmedayachi.notifier.Asset;
+import com.ahmedayachi.notifier.Action; 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationCompat.Action;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import android.content.Intent;
 import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.Bitmap;
 import androidx.core.graphics.drawable.IconCompat;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.graphics.Bitmap;
 
 
 public class Notification{
 
     private JSONObject props=null;
-    private static final NotificationCompat.Builder builder=new NotificationCompat.Builder(Notifier.context,Notifier.channelId);
+    private final NotificationCompat.Builder builder=new NotificationCompat.Builder(Notifier.context,Notifier.channelId);
     private static final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(Notifier.context);
     private AppCompatActivity activity=null;
 
@@ -51,7 +47,7 @@ public class Notification{
         boolean set=false;
         try{
             String path=props.getString("icon");
-            Bitmap bitmap=this.getBitmapIcon(path);
+            Bitmap bitmap=Notifier.getBitmapIcon(path);
             if(bitmap==null){
                 builder.setSmallIcon(Notifier.appinfo.icon);
             }
@@ -73,27 +69,13 @@ public class Notification{
                 builder.setLargeIcon(bitMapIcon);
             }
             else{
-                Bitmap bitmap=this.getBitmapIcon(path);
+                Bitmap bitmap=Notifier.getBitmapIcon(path);
                 if(bitmap!=null){
                     builder.setLargeIcon(bitmap);
                 }
             }
         }
         catch(JSONException exception){}
-    }
-
-    private Bitmap getBitmapIcon(String path){
-        Bitmap bitmap=null;
-        if(path.startsWith("data:")){
-            path=path.substring(path.indexOf(",")+1);
-            byte[] decoded=Base64.decode(path,Base64.DEFAULT);
-            bitmap=BitmapFactory.decodeByteArray(decoded,0,decoded.length);
-        }
-        else if(path.startsWith("file:///android_asset")){
-            bitmap=new Asset(path).toBitmap();
-        }
-
-        return bitmap;
     }
 
     private void setTitle(){
@@ -118,21 +100,10 @@ public class Notification{
             actions=props.getJSONArray("actions");
             int length=actions.length();
             if(length>0){
-                final Intent intent=new Intent(activity,activity.getClass());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
                 for(int i=0;i<length;i++){
-                    final JSONObject action=actions.getJSONObject(i);
-                    final String label=action.getString("label");
-                    Integer iconkey=null;
-                    try{
-                        iconkey=action.getInt("icon");
-                    }
-                    catch(JSONException exception){
-                        iconkey=1;
-                    };
-                    final Action.Builder actionbuilder=new Action.Builder(iconkey.intValue(),label,pendingIntent);
-                    builder.addAction(actionbuilder.build());
+                    final JSONObject options=actions.getJSONObject(i);
+                    final Action action=new Action(options);
+                    action.addTo(builder);
                 }
             }
         }
