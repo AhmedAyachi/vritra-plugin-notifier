@@ -17,14 +17,14 @@ public class Notifier extends CordovaPlugin{
 
     static Context context;
     static ApplicationInfo appinfo;
-    static String packageName;
+    //static String packageName;
     static final String channelId="NotifierChannel";
 
     @Override
     public void initialize(CordovaInterface cordova,CordovaWebView webView){
         Notifier.context=cordova.getContext();
         Notifier.appinfo=Notifier.context.getApplicationInfo();
-        Notifier.packageName=Notifier.context.getPackageName();
+        //Notifier.packageName=Notifier.context.getPackageName();
         this.createNotificationChannel();
     }
 

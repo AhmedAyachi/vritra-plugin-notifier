@@ -23,14 +23,14 @@ import android.graphics.Bitmap;
 public class Notification{
 
     private JSONObject props=null;
-    private NotificationCompat.Builder builder=null;
+    private static final NotificationCompat.Builder builder=new NotificationCompat.Builder(Notifier.context,Notifier.channelId);
+    private static final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(Notifier.context);
     private AppCompatActivity activity=null;
 
     public Notification(AppCompatActivity activity,JSONObject props) throws JSONException{
         this.props=props;
         this.activity=activity;
         int id=props.getInt("id");
-        this.builder=new NotificationCompat.Builder(activity,Notifier.channelId);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         this.setSmallIcon();
         this.setLargeIcon();
@@ -39,11 +39,11 @@ public class Notification{
         final Intent intent=new Intent(activity,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,PendingIntent.FLAG_NO_CREATE);
         builder.setContentIntent(pendingIntent).setAutoCancel(true);
         this.setActions();
         
-        final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(activity);
+
         notificationManager.notify(id,builder.build());
     }
 
