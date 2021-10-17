@@ -17,10 +17,14 @@
                 <param name="android-package" value="com.ahmedayachi.notifier.Notifier" />
             </feature>
         </config-file>
+        <config-file parent="application" target="AndroidManifest.xml">
+            <receiver android:name="com.ahmedayachi.notifier.ActionListener"/>
+        </config-file>
         <source-file src="src/android/Notifier.java" target-dir="src/com/ahmedayachi/notifier/Notifier"/>
         <source-file src="src/android/Notification.java" target-dir="src/com/ahmedayachi/notifier/Notification"/>
         <source-file src="src/android/Asset.java" target-dir="src/com/ahmedayachi/notifier/Asset"/>
         <source-file src="src/android/Action.java" target-dir="src/com/ahmedayachi/notifier/Action"/>
+        <source-file src="src/android/ActionListener.java" target-dir="src/com/ahmedayachi/notifier/ActionListener"/>
     </platform>
 
     <platform name="browser">

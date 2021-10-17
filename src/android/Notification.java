@@ -1,5 +1,6 @@
 package com.ahmedayachi.notifier;
 
+import org.apache.cordova.CallbackContext;
 import com.ahmedayachi.notifier.Notifier;
 import com.ahmedayachi.notifier.Action; 
 import org.json.JSONObject;
@@ -14,31 +15,33 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import androidx.core.graphics.drawable.IconCompat;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 
 public class Notification{
 
     private JSONObject props=null;
+    protected static final JSONObject callback=new JSONObject();
     private final NotificationCompat.Builder builder=new NotificationCompat.Builder(Notifier.context,Notifier.channelId);
-    private static final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(Notifier.context);
-    private AppCompatActivity activity=null;
+    protected static final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(Notifier.context);
+    int id;
 
-    public Notification(AppCompatActivity activity,JSONObject props) throws JSONException{
+    public Notification(AppCompatActivity activity,JSONObject props,CallbackContext callbackcontext) throws JSONException{
         this.props=props;
-        this.activity=activity;
-        int id=props.getInt("id");
+        id=props.getInt("id");
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         this.setSmallIcon();
         this.setLargeIcon();
         this.setTitle();
         this.setText();
-        final Intent intent=new Intent(activity,activity.getClass());
+        this.setBackgroundColor();
+        this.setActions(callbackcontext);
+
+        final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,PendingIntent.FLAG_NO_CREATE);
+        final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,0,intent,PendingIntent.FLAG_NO_CREATE);
         builder.setContentIntent(pendingIntent).setAutoCancel(true);
-        this.setActions();
-        
 
         notificationManager.notify(id,builder.build());
     }
@@ -47,7 +50,7 @@ public class Notification{
         boolean set=false;
         try{
             String path=props.getString("icon");
-            Bitmap bitmap=Notifier.getBitmapIcon(path);
+            final Bitmap bitmap=Notifier.getBitmapIcon(path);
             if(bitmap==null){
                 builder.setSmallIcon(Notifier.appinfo.icon);
             }
@@ -60,6 +63,16 @@ public class Notification{
         }
     }
 
+    private void setBackgroundColor(){
+        try{
+            final String backgroudColor=props.getString("backgroudColor");
+            builder.setColor(Color.parseColor(backgroudColor));
+            builder.setColorized(true);
+            builder.setStyle(new androidx.media.app.NotificationCompat.DecoratedMediaCustomViewStyle());
+            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        }
+        catch(JSONException exception){}
+    }
     private void setLargeIcon(){
         try{
             String path=props.getString("largeIcon");
@@ -69,7 +82,7 @@ public class Notification{
                 builder.setLargeIcon(bitMapIcon);
             }
             else{
-                Bitmap bitmap=Notifier.getBitmapIcon(path);
+                final Bitmap bitmap=Notifier.getBitmapIcon(path);
                 if(bitmap!=null){
                     builder.setLargeIcon(bitmap);
                 }
@@ -94,7 +107,7 @@ public class Notification{
         catch(JSONException exception){}
     }
 
-    private void setActions(){
+    private void setActions(CallbackContext callbackcontext){
         JSONArray actions=null;
         try{
             actions=props.getJSONArray("actions");
@@ -102,7 +115,9 @@ public class Notification{
             if(length>0){
                 for(int i=0;i<length;i++){
                     final JSONObject options=actions.getJSONObject(i);
+                    options.put("notificationId",id);
                     final Action action=new Action(options);
+                    callback.put(action.getId(),callbackcontext);
                     action.addTo(builder);
                 }
             }

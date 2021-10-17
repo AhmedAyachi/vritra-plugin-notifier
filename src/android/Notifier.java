@@ -47,7 +47,7 @@ public class Notifier extends CordovaPlugin{
         this.cordova.getThreadPool().execute(new Runnable(){
             public void run(){
                 try{
-                    final Notification notification=new Notification(activity,props);
+                    final Notification notification=new Notification(activity,props,callbackContext);
 
                 }
                 catch(JSONException exception){}
