@@ -32,6 +32,6 @@ public class Action{
         final PendingIntent pendingIntent=PendingIntent.getActivity(activity,0,intent,0);
         */
         final Builder builder=new Builder(icon,label,null);
-        notibuilder.addAction(actionbuilder.build());
+        notibuilder.addAction(builder.build());
     }
 }

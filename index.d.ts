@@ -5,7 +5,7 @@ interface Notifier{
         id:number,
         title:string,
         text:string,
-        smallIcon:number,
+        icon:string,
         largeIcon:number,
         actions:[{
             id:string|number,
