@@ -1,8 +1,10 @@
 declare var Notifier:Notifier;
 
 declare type Action={
-    id:string|number,
-    type:"button"|"input",
+    value:string|number,
+    type:"button"|"input"|"select",
+    options:string[],
+    placeholder:string,
     label:string,
     color:string,
     icon:string,
@@ -17,6 +19,10 @@ interface Notifier{
         largeIcon:string,
         backgroundColor:string,
         actions:Action[],
-        onAction(actionId:string):void,
+        onAction(action:{
+            value:string,
+            type:string,
+            text:string,
+        }):void,
     }):void,
 }

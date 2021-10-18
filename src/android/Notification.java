@@ -40,7 +40,7 @@ public class Notification{
         final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,0,intent,PendingIntent.FLAG_NO_CREATE);
+        final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent).setAutoCancel(true);
 
         notificationManager.notify(id,builder.build());
