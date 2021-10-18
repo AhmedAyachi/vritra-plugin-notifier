@@ -22,7 +22,7 @@ interface Notifier{
         onAction(action:{
             value:string,
             type:string,
-            text:string,
+            input:string,
         }):void,
     }):void,
 }

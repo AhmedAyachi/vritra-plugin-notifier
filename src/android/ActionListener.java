@@ -25,8 +25,8 @@ public class ActionListener extends BroadcastReceiver{
             CallbackContext callback=(CallbackContext)Notification.callbacks.get(id);
             if(type.equals("input")||type.equals("select")){
                 Bundle bundle=RemoteInput.getResultsFromIntent(intent);
-                String text=bundle.getString(id);
-                params.put("text",text);
+                String input=bundle.getString(id);
+                params.put("input",input);
             }
             callback.success(params);
             Notification.notificationManager.cancel(notificationId);
