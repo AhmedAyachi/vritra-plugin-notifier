@@ -68,7 +68,7 @@ public class Notification{
             final String backgroudColor=props.getString("backgroudColor");
             builder.setColor(Color.parseColor(backgroudColor));
             builder.setColorized(true);
-            builder.setStyle(new androidx.media.app.NotificationCompat.DecoratedMediaCustomViewStyle());
+            //builder.setStyle(new androidx.media.app.NotificationCompat.DecoratedMediaCustomViewStyle());
             builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         }
         catch(JSONException exception){}
