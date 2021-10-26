@@ -15,24 +15,26 @@ public class ActionListener extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context,Intent intent){
-        String id=intent.getStringExtra("id");
-        String type=intent.getStringExtra("type");
-        int notificationId=intent.getIntExtra("notificationId",-7);
         try{
-            JSONObject params=new JSONObject();
-            params.put("value",id);
-            params.put("type",type);
+            final String id=intent.getStringExtra("id");
             CallbackContext callback=(CallbackContext)Notification.callbacks.get(id);
-            if(type.equals("input")||type.equals("select")){
-                Bundle bundle=RemoteInput.getResultsFromIntent(intent);
-                String input=bundle.getString(id);
-                params.put("input",input);
+            if(callback!=null){
+                final String type=intent.getStringExtra("type");
+                int notificationId=intent.getIntExtra("notificationId",-7);
+                JSONObject params=new JSONObject();
+                params.put("value",id);
+                params.put("type",type);
+                
+                if(type.matches("input|select")){
+                    Bundle bundle=RemoteInput.getResultsFromIntent(intent);
+                    String input=bundle.getString(id);
+                    params.put("input",input);
+                }
+                callback.success(params);
+                Notification.notificationManager.cancel(notificationId);
+                Notification.callbacks.remove(id);
             }
-            callback.success(params);
-            Notification.notificationManager.cancel(notificationId);
-            Notification.callbacks.remove(id);
         }
         catch(JSONException exception){}
-        
     }
 }

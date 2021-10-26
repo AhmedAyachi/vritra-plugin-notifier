@@ -79,6 +79,8 @@ public class Action{
     public void addTo(NotificationCompat.Builder notibuilder) throws JSONException{
         final Intent intent=new Intent(Notifier.context,ActionListener.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setAction(Intent.ACTION_MAIN);
         intent.putExtra("id",id);
         intent.putExtra("notificationId",options.getInt("notificationId"));
         intent.putExtra("type",type);
@@ -107,6 +109,7 @@ public class Action{
             }
             catch(JSONException exception){}
         }
+        
         notibuilder.addAction(builder.build());
     }
 }
