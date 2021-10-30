@@ -6,10 +6,7 @@ module.exports={
         const {onAction}=notification;
         exec(onAction,null,"Notifier","notify",[notification]);
     },
-    showToast:(options)=>{
-        exec(null,null,"Notifier","showToast",[options]);
-    },
-    cancelToast:(id,onCancelled)=>{
-        exec(onCancelled,null,"Notifier","cancelToast",[id]);
+    toast:(options)=>{
+        exec(null,null,"Notifier","toast",[options]);
     },
 };

@@ -7,20 +7,19 @@ import android.view.Gravity;
 
 class ToastView{
     
-    
-    private JSONObject options=null;
+    private JSONObject props=null;
     private Toast toast=null;
 
-    public ToastView(JSONObject options){
-        if(options!=null){
-            this.options=options;
-            String text=options.optString("text","");
+    public ToastView(JSONObject props){
+        if(props!=null){
+            this.props=props;
+            String text=props.optString("text","");
             toast=Toast.makeText(Notifier.context,text,getDuration());
         }
     }
 
     private int getDuration(){
-        String lasting=options.optString("lasting","short");
+        String lasting=props.optString("lasting","short");
         int duration=Toast.LENGTH_SHORT;
         if(lasting.equals("long")){
             duration=Toast.LENGTH_LONG;
@@ -31,11 +30,6 @@ class ToastView{
     public void show(){
         if(toast!=null){
             toast.show();
-        }
-    }
-    public void cancel(){
-        if(toast!=null){
-            toast.cancel();
         }
     }
 }

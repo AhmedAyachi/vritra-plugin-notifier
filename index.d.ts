@@ -25,10 +25,8 @@ interface Notifier{
             input:string,
         }):void,
     }):void,
-    showToast(toast:{
-        id:string,
+    toast(props:{
         text:string,
         lasting:"short"|"long",
     }):void,
-    cancelToast(id:string,onCancelled:()=>void):void,
 }

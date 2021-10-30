@@ -23,7 +23,6 @@ public class Notifier extends CordovaPlugin{
     static Context context;
     static ApplicationInfo appinfo;
     static final String channelId="NotifierChannel";
-    protected static final JSONObject toastviews=new JSONObject();
 
     @Override
     public void initialize(CordovaInterface cordova,CordovaWebView webView){
@@ -40,13 +39,9 @@ public class Notifier extends CordovaPlugin{
             this.notify(props,callbackContext);
             return true;
         }
-        else if(action.equals("showToast")){
-            JSONObject options=args.getJSONObject(0);
-            this.showToast(options,callbackContext);
-        }
-        else if(action.equals("cancelToast")){
-            String id=args.getString(0);
-            this.cancelToast(id,callbackContext);
+        else if(action.equals("toast")){
+            JSONObject props=args.getJSONObject(0);
+            this.toast(props,callbackContext);
         }
         return false;
     }
@@ -64,25 +59,9 @@ public class Notifier extends CordovaPlugin{
         });
     }
 
-    private void showToast(JSONObject options,CallbackContext callbackContext){
-        final ToastView toastview=new ToastView(options);
-        String id=options.optString("id");
-        if(id!=null){
-            try{
-                toastviews.put(id,toastview);
-            }
-            catch(JSONException exception){}
-        }
+    private void toast(JSONObject props,CallbackContext callbackContext){
+        final ToastView toastview=new ToastView(props);
         toastview.show();
-    }
-
-    private void cancelToast(String id,CallbackContext callbackContext){
-        final ToastView toastview=(ToastView)toastviews.opt(id);
-        if(toastview!=null){
-            toastview.cancel();
-            toastviews.remove(id);
-            callbackContext.success();
-        }
     }
 
     private void createNotificationChannel(){
