@@ -3,6 +3,7 @@ package com.ahmedayachi.notifier;
 import org.apache.cordova.*;
 import com.ahmedayachi.notifier.Notification;
 import com.ahmedayachi.notifier.Asset;
+import com.ahmedayachi.notifier.ToastView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.app.NotificationManager;
@@ -21,8 +22,8 @@ public class Notifier extends CordovaPlugin{
 
     static Context context;
     static ApplicationInfo appinfo;
-    //static String packageName;
     static final String channelId="NotifierChannel";
+    protected static final JSONObject toastviews=new JSONObject();
 
     @Override
     public void initialize(CordovaInterface cordova,CordovaWebView webView){
@@ -38,6 +39,14 @@ public class Notifier extends CordovaPlugin{
             JSONObject props=args.getJSONObject(0);
             this.notify(props,callbackContext);
             return true;
+        }
+        else if(action.equals("showToast")){
+            JSONObject options=args.getJSONObject(0);
+            this.showToast(options,callbackContext);
+        }
+        else if(action.equals("cancelToast")){
+            String id=args.getString(0);
+            this.cancelToast(id,callbackContext);
         }
         return false;
     }
@@ -55,11 +64,32 @@ public class Notifier extends CordovaPlugin{
         });
     }
 
+    private void showToast(JSONObject options,CallbackContext callbackContext){
+        final ToastView toastview=new ToastView(options);
+        String id=options.optString("id");
+        if(id!=null){
+            try{
+                toastviews.put(id,toastview);
+            }
+            catch(JSONException exception){}
+        }
+        toastview.show();
+    }
+
+    private void cancelToast(String id,CallbackContext callbackContext){
+        final ToastView toastview=(ToastView)toastviews.opt(id);
+        if(toastview!=null){
+            toastview.cancel();
+            toastviews.remove(id);
+            callbackContext.success();
+        }
+    }
+
     private void createNotificationChannel(){
         final AppCompatActivity activity=cordova.getActivity();
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
-            CharSequence name="name";
-            String description="description";
+            CharSequence name="NotifierChannel";
+            String description="Notifier channel";
             int importance=NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel=new NotificationChannel(channelId,name,importance);
             channel.setDescription(description);
@@ -80,5 +110,4 @@ public class Notifier extends CordovaPlugin{
         }
         return bitmap;
     }
-    
 }

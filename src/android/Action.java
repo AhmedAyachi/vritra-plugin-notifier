@@ -1,7 +1,6 @@
 package com.ahmedayachi.notifier;
 
 import com.ahmedayachi.notifier.Notifier;
-
 import java.util.ArrayList;
 import java.util.Random;
 import com.ahmedayachi.notifier.ActionListener;
