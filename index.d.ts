@@ -12,11 +12,12 @@ declare type Action={
 
 interface Notifier{
     notify(notification:{
-        id:string,
+        id:number,
         title:string,
         text:string,
         icon:string,
         largeIcon:string,
+        autoCancel:boolean,
         backgroundColor:string,
         actions:Action[],
         onAction(action:{
@@ -25,6 +26,7 @@ interface Notifier{
             input:string,
         }):void,
     }):void,
+    dismiss(notificationId:number,onDimissed:()=>void):void,
     showToast(toast:{
         id:string,
         text:string,

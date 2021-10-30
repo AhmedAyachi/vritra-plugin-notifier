@@ -24,26 +24,29 @@ public class Notification{
     protected static final JSONObject callbacks=new JSONObject();
     private final NotificationCompat.Builder builder=new NotificationCompat.Builder(Notifier.context,Notifier.channelId);
     protected static final NotificationManagerCompat notificationManager=NotificationManagerCompat.from(Notifier.context);
-    int id;
+    private Integer id;
 
     public Notification(AppCompatActivity activity,JSONObject props,CallbackContext callbackcontext) throws JSONException{
         this.props=props;
-        id=props.getInt("id");
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        this.setSmallIcon();
-        this.setLargeIcon();
-        this.setTitle();
-        this.setText();
-        this.setBackgroundColor();
-        this.setActions(callbackcontext);
-
-        final Intent intent=new Intent(Notifier.context,activity.getClass());
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent).setAutoCancel(true);
-
-        notificationManager.notify(id,builder.build());
+        id=props.optInt("id");
+        if(id!=null){
+            builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            this.setSmallIcon();
+            this.setLargeIcon();
+            this.setTitle();
+            this.setText();
+            this.setAutoCancel();
+            this.setBackgroundColor();
+            this.setActions(callbackcontext);
+    
+            final Intent intent=new Intent(Notifier.context,activity.getClass());
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.setAction(Intent.ACTION_MAIN);
+            final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+            notificationManager.notify(id.intValue(),builder.build());
+            Notifier.notifications.put(id.toString(),this);
+        }
     }
 
     private void setSmallIcon(){
@@ -62,7 +65,13 @@ public class Notification{
             builder.setSmallIcon(Notifier.appinfo.icon);
         }
     }
-
+ 
+    private void setAutoCancel(){
+        Boolean autoCancel=props.optBoolean("autoCancel",true);
+        if(autoCancel){
+            builder.setAutoCancel(true);
+        }
+    }
     private void setBackgroundColor(){
         try{
             final String backgroudColor=props.getString("backgroudColor");

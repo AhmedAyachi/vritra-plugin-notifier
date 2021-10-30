@@ -23,6 +23,7 @@ public class Notifier extends CordovaPlugin{
     static Context context;
     static ApplicationInfo appinfo;
     static final String channelId="NotifierChannel";
+    protected static final JSONObject notifications=new JSONObject();
     protected static final JSONObject toastviews=new JSONObject();
 
     @Override
@@ -57,7 +58,6 @@ public class Notifier extends CordovaPlugin{
             public void run(){
                 try{
                     final Notification notification=new Notification(activity,props,callbackContext);
-
                 }
                 catch(JSONException exception){}
             }
