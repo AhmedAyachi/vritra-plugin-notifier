@@ -1,4 +1,4 @@
-declare var Notifier:Notifier;
+declare const Notifier:Notifier;
 
 declare type Action={
     value:string|number,
