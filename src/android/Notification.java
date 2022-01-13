@@ -135,7 +135,7 @@ public class Notification {
     }
 
     private void setSubText(){
-        final String subtext=props.optString("subtext");
+        final String subtext=props.optString("subtext",null);
         if(subtext!=null){
             builder.setSubText(subtext);
         }
