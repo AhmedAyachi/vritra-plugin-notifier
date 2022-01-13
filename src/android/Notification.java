@@ -40,16 +40,13 @@ public class Notification{
         this.setTitle();
         this.setBody();
         //this.setBackgroundColor();
-        this.setActions(callbackcontext);
+        this.setActions();
 
         final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
         final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        if(once){
-            builder.setAutoCancel(true);
-        }  
+        builder.setContentIntent(pendingIntent).setAutoCancel(once);
         try{
             callbacks.put(Integer.toString(id),callbackcontext);
         }
@@ -110,7 +107,7 @@ public class Notification{
         builder.setContentText(body);
     }
 
-    private void setActions(CallbackContext callbackcontext){
+    private void setActions(){
         final JSONArray actions=props.optJSONArray("actions");
         if(actions!=null){
             final int length=actions.length();
@@ -122,7 +119,6 @@ public class Notification{
                             options.put("notificationId",id);
                             options.put("once",once);
                             final Action action=new Action(options);
-                            //callbacks.put(action.ref,callbackcontext);
                             action.addTo(builder);
                         }
                         catch(JSONException exception){}
