@@ -1,32 +1,33 @@
 declare const Notifier:Notifier;
 
 declare type Action={
-    value:string|number,
+    ref?:string,
     type:"button"|"input"|"select",
-    options:string[],
-    placeholder:string,
     label:string,
-    color:string,
-    icon:string,
+    options:string[],
+    placeholder?:string,
+    color?:string,
+    icon?:string,
 };
 
 interface Notifier{
     notify(notification:{
-        id:string,
-        title:string,
-        text:string,
-        icon:string,
-        largeIcon:string,
-        backgroundColor:string,
-        actions:Action[],
-        onAction(action:{
-            value:string,
+        id?:number,
+        title?:string,
+        body?:string,
+        icon?:string,
+        largeIcon?:string,
+        actions?:Action[],
+        once?:boolean,
+        onAction?(action:{
+            ref:string,
             type:string,
             input:string,
         }):void,
-    }):void,
+    }):void;
     toast(props:{
         text:string,
         lasting:"short"|"long",
-    }):void,
+    }):void;
+    destroy(notificationId:number):void;
 }

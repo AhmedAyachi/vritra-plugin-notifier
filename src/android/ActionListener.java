@@ -6,33 +6,36 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import org.apache.cordova.CallbackContext;
-import org.json.JSONException;
 import org.json.JSONObject;
 import androidx.core.app.RemoteInput;
 import android.os.Bundle;
+import org.json.JSONException;
+
 
 public class ActionListener extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context,Intent intent){
         try{
-            final String id=intent.getStringExtra("id");
-            CallbackContext callback=(CallbackContext)Notification.callbacks.get(id);
+            final int notificationId=intent.getIntExtra("notificationId",-1);
+            final CallbackContext callback=(CallbackContext)Notification.callbacks.opt(Integer.toString(notificationId));
             if(callback!=null){
+                final String ref=intent.getStringExtra("ref");
                 final String type=intent.getStringExtra("type");
-                int notificationId=intent.getIntExtra("notificationId",-7);
                 JSONObject params=new JSONObject();
-                params.put("value",id);
+                params.put("ref",ref);
                 params.put("type",type);
-                
                 if(type.matches("input|select")){
-                    Bundle bundle=RemoteInput.getResultsFromIntent(intent);
-                    String input=bundle.getString(id);
+                    final Bundle bundle=RemoteInput.getResultsFromIntent(intent);
+                    final String input=bundle.getString(ref);
                     params.put("input",input);
                 }
                 callback.success(params);
-                Notification.notificationManager.cancel(notificationId);
-                Notification.callbacks.remove(id);
+                final Boolean once=intent.getBooleanExtra("once",true);
+                if(once){
+                    Notifier.destroy(notificationId);
+                }
+                
             }
         }
         catch(JSONException exception){}

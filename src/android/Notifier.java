@@ -35,28 +35,33 @@ public class Notifier extends CordovaPlugin{
     @Override
     public boolean execute(String action,JSONArray args,CallbackContext callbackContext) throws JSONException{
         if(action.equals("notify")) {
-            JSONObject props=args.getJSONObject(0);
+            JSONObject props=args.optJSONObject(0);
             this.notify(props,callbackContext);
             return true;
         }
+        else if(action.equals("destroy")){
+            final int notificationId=args.optInt(0);
+            Notifier.destroy(notificationId);
+        }
         else if(action.equals("toast")){
-            JSONObject props=args.getJSONObject(0);
+            JSONObject props=args.optJSONObject(0);
             this.toast(props,callbackContext);
         }
         return false;
     }
 
-    private void notify(JSONObject props,CallbackContext callbackContext) throws JSONException{
+    private void notify(JSONObject props,CallbackContext callbackContext){
         final AppCompatActivity activity=cordova.getActivity();
         this.cordova.getThreadPool().execute(new Runnable(){
             public void run(){
-                try{
-                    final Notification notification=new Notification(activity,props,callbackContext);
-
-                }
-                catch(JSONException exception){}
+                final Notification notification=new Notification(activity,props,callbackContext);
             }
         });
+    }
+
+    static protected void destroy(int notificationId){
+        Notification.manager.cancel(notificationId);
+        Notification.callbacks.remove(Integer.toString(notificationId));
     }
 
     private void toast(JSONObject props,CallbackContext callbackContext){
