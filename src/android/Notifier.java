@@ -39,9 +39,9 @@ public class Notifier extends CordovaPlugin{
             this.notify(props,callbackContext);
             return true;
         }
-        else if(action.equals("destroy")){
+        else if(action.equals("dismiss")){
             final int notificationId=args.optInt(0);
-            Notifier.destroy(notificationId);
+            Notifier.dismiss(notificationId);
         }
         else if(action.equals("toast")){
             JSONObject props=args.optJSONObject(0);
@@ -59,7 +59,7 @@ public class Notifier extends CordovaPlugin{
         });
     }
 
-    static protected void destroy(int notificationId){
+    static protected void dismiss(int notificationId){
         Notification.manager.cancel(notificationId);
         Notification.callbacks.remove(Integer.toString(notificationId));
     }

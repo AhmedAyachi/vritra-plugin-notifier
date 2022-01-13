@@ -15,10 +15,14 @@ interface Notifier{
         id?:number,
         title?:string,
         body?:string,
+        fullbody?:boolean,
         icon?:string,
-        largeIcon?:string,
+        largeIcon?:"appIcon"|string,
         actions?:Action[],
         once?:boolean,
+        sticky?:boolean,
+        subtext?:string,
+        color?:string,
         onAction?(action:{
             ref:string,
             type:string,
@@ -29,5 +33,5 @@ interface Notifier{
         text:string,
         lasting:"short"|"long",
     }):void;
-    destroy(notificationId:number):void;
+    dismiss(notificationId:number):void;
 }

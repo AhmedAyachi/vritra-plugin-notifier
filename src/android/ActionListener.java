@@ -33,7 +33,7 @@ public class ActionListener extends BroadcastReceiver{
                 callback.success(params);
                 final Boolean once=intent.getBooleanExtra("once",true);
                 if(once){
-                    Notifier.destroy(notificationId);
+                    Notifier.dismiss(notificationId);
                 }
                 
             }

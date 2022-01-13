@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import androidx.core.text.HtmlCompat;
 import android.content.Intent;
 import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
@@ -20,7 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 
-public class Notification{
+public class Notification {
 
     private JSONObject props=null;
     protected static final JSONObject callbacks=new JSONObject();
@@ -34,13 +35,14 @@ public class Notification{
         id=props.optInt("id",new Random().nextInt(1000));
         once=props.optBoolean("once",true);
         
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        this.setSmallIcon();
-        this.setLargeIcon();
         this.setTitle();
         this.setBody();
-        //this.setBackgroundColor();
+        this.setSmallIcon();
+        this.setLargeIcon();
         this.setActions();
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setOngoing(props.optBoolean("sticky",false));
+        this.setSubText();
 
         final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -53,6 +55,30 @@ public class Notification{
         catch(JSONException exception){}
         
         manager.notify(id,builder.build());
+    }
+
+    private void setTitle(){
+        final String title=props.optString("title","");
+        final String color=props.optString("color",null);
+        if(color==null){
+            builder.setContentTitle(title);
+        }
+        else{
+            builder.setContentTitle(HtmlCompat.fromHtml("<font color='"+color+"'>"+title+"</font>",HtmlCompat.FROM_HTML_MODE_LEGACY));
+            builder.setColor(Color.parseColor(color));
+            builder.setColorized(true);
+        }
+    }
+
+    private void setBody(){
+        final String body=props.optString("body","");
+        final boolean fullbody=props.optBoolean("fullbody",false);
+        if(fullbody){
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+        }
+        else{
+            builder.setContentText(body);
+        }
     }
 
     private void setSmallIcon(){
@@ -72,16 +98,6 @@ public class Notification{
             
     }
 
-    /* private void setBackgroundColor(){
-        try{
-            final String backgroudColor=props.getString("backgroudColor");
-            builder.setColor(Color.parseColor(backgroudColor));
-            builder.setColorized(true);
-            //builder.setStyle(new androidx.media.app.NotificationCompat.DecoratedMediaCustomViewStyle());
-            builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        }
-        catch(JSONException exception){}
-    } */
     private void setLargeIcon(){
         String icon=props.optString("largeIcon");
         if(icon.equals("appIcon")){
@@ -95,16 +111,6 @@ public class Notification{
                 builder.setLargeIcon(bitmap);
             }
         }
-    }
-
-    private void setTitle(){
-        final String title=props.optString("title","");
-        builder.setContentTitle(title);
-    }
-
-    private void setBody(){
-        final String body=props.optString("body","");
-        builder.setContentText(body);
     }
 
     private void setActions(){
@@ -125,6 +131,13 @@ public class Notification{
                     }
                 }
             }
+        }
+    }
+
+    private void setSubText(){
+        final String subtext=props.optString("subtext");
+        if(subtext!=null){
+            builder.setSubText(subtext);
         }
     }
 }

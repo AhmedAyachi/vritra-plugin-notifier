@@ -9,7 +9,7 @@ module.exports={
     toast:(options)=>{
         exec(null,null,"Notifier","toast",[options]);
     },
-    destroy:(notificationId)=>{
-        exec(null,null,"Notifier","destroy",[notificationId]);
+    dismiss:(notificationId)=>{
+        exec(null,null,"Notifier","dismiss",[notificationId]);
     },
 };
