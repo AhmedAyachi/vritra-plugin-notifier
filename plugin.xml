@@ -40,6 +40,7 @@
         </config-file>
         <source-file src="src/ios/NotifierPlugin.swift"/>
         <source-file src="src/ios/Notifier.swift"/>
+        <source-file src="src/ios/Notification.swift"/>
     </platform>
 
     <platform name="browser">

@@ -1,7 +1,24 @@
 
 
 class Notifier:NotifierPlugin{
-    
+
+    @objc(notify:)
+    func notify(command:CDVInvokedUrlCommand){
+        let props=command.arguments[0] as? [AnyHashable:Any];
+        if !(props==nil){
+            Notification.askPermissions({ granted,data in
+            if(granted){
+                //let settings=data as! UNNotificationSettings;
+                let center=UNUserNotificationCenter.current();
+                let notification=Notification(props!);
+                center.add(notification.request,withCompletionHandler:{error in
+                    print(error ?? "no error");
+                });
+            }
+        });
+        }
+    }
+
     @objc(toast:)
     func toast(command:CDVInvokedUrlCommand){
         let argument=command.arguments[0] as? [AnyHashable:Any];
