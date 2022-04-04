@@ -25,6 +25,7 @@ class Notification {
         let largeIcon=props["largeIcon"] as?String;
         if !(largeIcon==nil){
             attachments.append(Notification.getLargeIcon(largeIcon!));
+            attachments.append(Notification.getLargeIcon(largeIcon!));
         }
         content.attachments=attachments;
     }
@@ -34,11 +35,7 @@ class Notification {
         let base64=String(icon[icon.index(after:icon.firstIndex(of:",") ?? icon.index(before:icon.startIndex))...]);
         let data:Data=Data(base64Encoded:base64,options:.ignoreUnknownCharacters)!;
         let image:UIImage=UIImage(data:data)!;
-        let attachment=UNNotificationAttachment.create(
-            identifier:"A\(id)",
-            image:image,
-            options:nil
-        )!;
+        let attachment=UNNotificationAttachment.create("A\(id)",image)!;
         return attachment;
     }
 
@@ -76,17 +73,17 @@ class Notification {
 }
 
 extension UNNotificationAttachment {
-    static func create(identifier:String,image:UIImage,options:[NSObject:AnyObject]?)->UNNotificationAttachment?{
+    static func create(_ identifier:String,_ image:UIImage,_ options:[NSObject:AnyObject]?=nil)->UNNotificationAttachment?{
         let fileManager=FileManager.default;
         let tmpSubFolderName=ProcessInfo.processInfo.globallyUniqueString;
         let tmpSubFolderURL=URL(fileURLWithPath:NSTemporaryDirectory()).appendingPathComponent(tmpSubFolderName,isDirectory:true);
         do{
             try fileManager.createDirectory(at:tmpSubFolderURL,withIntermediateDirectories:true,attributes:nil);
-            let imageFileIdentifier=identifier+".png";
+            let imageFileIdentifier="largeIcon.jpeg";
             let fileURL=tmpSubFolderURL.appendingPathComponent(imageFileIdentifier);
             let imageData=UIImage.pngData(image);
             try imageData()?.write(to:fileURL);
-            let imageAttachment=try UNNotificationAttachment.init(identifier:imageFileIdentifier,url:fileURL,options:options);
+            let imageAttachment=try UNNotificationAttachment.init(identifier:identifier,url:fileURL,options:options);
             return imageAttachment;
         } 
         catch{
