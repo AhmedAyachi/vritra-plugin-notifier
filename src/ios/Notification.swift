@@ -2,18 +2,31 @@
 
 class Notification {
 
-    public let request:UNNotificationRequest;
+    let content=UNMutableNotificationContent();
+    let props:[AnyHashable:Any];
 
     init(_ props:[AnyHashable:Any]){
-        let content=UNMutableNotificationContent();
-        content.title=props["title"] as? String ?? "title";
-        content.body=props["body"] as? String ?? "body";
+        self.props=props;
+        content.title=props["title"] as? String ?? "";
+        content.subtitle=props["subtext"] as? String ?? "";
+        setBody();
+    }
+    
+    func getRequest()->UNNotificationRequest{
         let id=props["id"] as? Int ?? Int.random(in:0...999);
-        self.request=UNNotificationRequest(
-            identifier:String(id),
+        let request=UNNotificationRequest(
+            identifier:"\(Notifier.appname)_\(id)",
             content:content,
             trigger:nil
         );
+        return request;
+    }
+
+    func setBody(){
+        var body=props["body"] as? String ?? " ";
+        let fullbody=props["fullbody"] as? Bool ?? false;
+        body=fullbody ? body:String(body[...body.index(body.startIndex,offsetBy:body.count<89 ? body.count-1:89)]);
+        content.body=body;
     }
 
     static func askPermissions(_ onGranted:@escaping(Bool,Any)->Void){
