@@ -14,7 +14,7 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
                 let center=UNUserNotificationCenter.current();
                 center.delegate=self;
                 let notification=Notification(props!);
-                center.add(notification.getRequest(),withCompletionHandler:{error in
+                center.add(notification.toRequest(),withCompletionHandler:{error in
                     print(error ?? "no error");
                 });
             }
