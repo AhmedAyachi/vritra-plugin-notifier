@@ -7,6 +7,7 @@ module.exports={
         exec(onAction,null,"Notifier","notify",[notification]);
     },
     toast:(options)=>{
+        options.text=`${options.text}`;
         exec(null,null,"Notifier","toast",[options]);
     },
     dismiss:(notificationId)=>{
