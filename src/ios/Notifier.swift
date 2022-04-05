@@ -60,7 +60,7 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
     func dismiss(command:CDVInvokedUrlCommand){
         let argument=command.arguments[0] as? Int;
         if !(argument==nil){
-            let id="\(Notifier.appname)_\(argument!)";
+            let id="\(argument!)";
             let center=UNUserNotificationCenter.current();
             center.removePendingNotificationRequests(withIdentifiers:[id]);
             center.removeDeliveredNotifications(withIdentifiers:[id]);
