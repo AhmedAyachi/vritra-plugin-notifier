@@ -53,15 +53,6 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
                 Notifier.commands.removeValue(forKey:id);
             }
         }
-        /* if response.actionIdentifier == "markAsDone" {
-          let userInfo = response.notification.request.content.userInfo
-          if let taskData = userInfo["Task"] as? Data {
-            if let task = try? JSONDecoder().decode(Task.self, from: taskData) {
-              // 3
-              TaskManager.shared.remove(task: task)
-            }
-          }
-        } */
         completionHandler();
     }
 
