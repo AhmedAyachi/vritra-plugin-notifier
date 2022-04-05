@@ -44,7 +44,7 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
                 data["input"]=textResponse.userText;
             }
             else if(type.hasPrefix("select")){
-                let option=parts[2];
+                let option=parts.count>2 ? parts[2]:"";
                 data["input"]=option;
             }
             let command=Notifier.commands[id];
