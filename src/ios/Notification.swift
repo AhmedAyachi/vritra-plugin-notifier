@@ -77,7 +77,7 @@ class Notification {
 
     static func getUNAction(_ action:[AnyHashable:Any])->[UNNotificationAction]{
         let type=action["type"] as? String ?? "button";
-        let ref="\(type)_\(action["ref"] as? String ?? "")";
+        let ref="\(type)_\(action["ref"] as? String ?? "ref")";
         switch(type){
             case "input":
                 let label=action["label"] as? String ?? "";
