@@ -3,6 +3,7 @@
 class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
 
     static let appname=Bundle.main.infoDictionary?["CFBundleDisplayName" as String] as? String ?? "";
+    static var commands:[Int:CDVInvokedUrlCommand]=[:];
 
     @objc(notify:)
     func notify(command:CDVInvokedUrlCommand){
@@ -17,6 +18,7 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
                 center.add(notification.toRequest(),withCompletionHandler:{error in
                     print(error ?? "no error");
                 });
+                Notifier.commands[notification.id]=command;
             }
         });
         }
@@ -24,6 +26,43 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: (UNNotificationPresentationOptions)->Void){
         completionHandler([.alert,.badge,.sound]);
+    }
+
+    func userNotificationCenter(_ center:UNUserNotificationCenter,didReceive response:UNNotificationResponse,withCompletionHandler completionHandler:@escaping()->Void){
+        
+        let id=Int(response.notification.request.identifier) ?? -1;
+        let actionId=response.actionIdentifier;
+        let parts=actionId.split(separator:"_");
+        let type=String(parts[0]);
+        if !(id==nil){
+            var data:[String:Any]=[
+                "ref":parts[1],
+                "type":type,
+                "input":false,
+            ];
+            if let textResponse=response as? UNTextInputNotificationResponse{
+                data["input"]=textResponse.userText;
+            }
+            else if(type.hasPrefix("select")){
+                let option=parts[2];
+                data["input"]=option;
+            }
+            let command=Notifier.commands[id];
+            if !(command==nil){
+                success(command!,data);
+                Notifier.commands.removeValue(forKey:id);
+            }
+        }
+        /* if response.actionIdentifier == "markAsDone" {
+          let userInfo = response.notification.request.content.userInfo
+          if let taskData = userInfo["Task"] as? Data {
+            if let task = try? JSONDecoder().decode(Task.self, from: taskData) {
+              // 3
+              TaskManager.shared.remove(task: task)
+            }
+          }
+        } */
+        completionHandler();
     }
 
     @objc(dismiss:)

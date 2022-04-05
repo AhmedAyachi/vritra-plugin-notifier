@@ -4,13 +4,17 @@ class Notification {
 
     let content=UNMutableNotificationContent();
     let props:[AnyHashable:Any];
+    static var categories:Set<UNNotificationCategory>=[];
+    public var id:Int=0;
 
     init(_ props:[AnyHashable:Any]){
         self.props=props;
         content.title=props["title"] as? String ?? "";
         content.subtitle=props["subtext"] as? String ?? "";
+        content.launchImageName="launchImageName";
         setBody();
         setAttachments();
+        setActions();
     }
 
     func setBody(){
@@ -25,18 +29,32 @@ class Notification {
         let largeIcon=props["largeIcon"] as?String;
         if !(largeIcon==nil){
             attachments.append(Notification.getLargeIcon(largeIcon!));
-            attachments.append(Notification.getLargeIcon(largeIcon!));
         }
         content.attachments=attachments;
     }
 
-    static func getLargeIcon(_ icon:String)->UNNotificationAttachment{
-        let id=Int.random(in:0...999);
-        let base64=String(icon[icon.index(after:icon.firstIndex(of:",") ?? icon.index(before:icon.startIndex))...]);
-        let data:Data=Data(base64Encoded:base64,options:.ignoreUnknownCharacters)!;
-        let image:UIImage=UIImage(data:data)!;
-        let attachment=UNNotificationAttachment.create("A\(id)",image)!;
-        return attachment;
+    func setActions(){
+        var id="\(Int.random(in:0...999))";
+        var actions=props["actions"] as? [Any] ?? [];
+        if !(actions.isEmpty){
+            actions=Array<Any>(actions[..<(actions.count>3 ? 3:actions.count)]);
+            var unactions:[UNNotificationAction]=[];
+            actions.forEach({object in
+                let action=object as! [AnyHashable:Any];
+                let unaction=Notification.getUNAction(action);
+                unactions.append(contentsOf:unaction);
+                id=unaction[0].identifier+id;
+            });
+            let category=UNNotificationCategory(
+                identifier:id,
+                actions:unactions,
+                intentIdentifiers:[],
+                options:[]
+            );
+            Notification.categories.insert(category);
+            UNUserNotificationCenter.current().setNotificationCategories(Notification.categories);
+            content.categoryIdentifier=id;
+        }
     }
 
     /* func setBadge(){
@@ -48,13 +66,51 @@ class Notification {
     } */
     
     func toRequest()->UNNotificationRequest{
-        let id=props["id"] as? Int ?? Int.random(in:0...999);
+        self.id=props["id"] as? Int ?? Int.random(in:0...99999);
         let request=UNNotificationRequest(
-            identifier:"\(Notifier.appname)_\(id)",
+            identifier:"\(self.id)",
             content:content,
             trigger:nil
         );
         return request;
+    }
+
+    static func getUNAction(_ action:[AnyHashable:Any])->[UNNotificationAction]{
+        let type=action["type"] as? String ?? "button";
+        let ref="\(type)_\(action["ref"] as? String ?? "")";
+        switch(type){
+            case "input":
+                let label=action["label"] as? String ?? "";
+                return [UNTextInputNotificationAction(
+                    identifier:ref,
+                    title:label,
+                    options:[],
+                    textInputButtonTitle:label,
+                    textInputPlaceholder:action["placeholder"] as? String ?? ""
+                )];
+            case "select":
+                let options=action["options"] as? [String] ?? [];
+                return options.map({option in UNNotificationAction(
+                    identifier:"\(ref)_\(option)",
+                    title:option,
+                    options:[]
+                )});
+            case "button":fallthrough;
+            default:return [UNNotificationAction(
+                identifier:ref,
+                title:action["label"] as? String ?? "",
+                options:[]
+            )];
+        } 
+    }
+
+    static func getLargeIcon(_ icon:String)->UNNotificationAttachment{
+        let id=Int.random(in:0...999);
+        let base64=String(icon[icon.index(after:icon.firstIndex(of:",") ?? icon.index(before:icon.startIndex))...]);
+        let data:Data=Data(base64Encoded:base64,options:.ignoreUnknownCharacters)!;
+        let image:UIImage=UIImage(data:data)!;
+        let attachment=UNNotificationAttachment.create("A\(id)",image)!;
+        return attachment;
     }
 
     static func askPermissions(_ onGranted:@escaping(Bool,Any)->Void){
