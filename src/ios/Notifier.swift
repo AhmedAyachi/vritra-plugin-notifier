@@ -2,7 +2,7 @@
 
 class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
 
-    static let appname=Bundle.main.infoDictionary?["CFBundleDisplayName" as String] as? String ?? "";
+    //static let appname=Bundle.main.infoDictionary?["CFBundleDisplayName" as String] as? String ?? "";
     static var commands:[Int:CDVInvokedUrlCommand]=[:];
 
     @objc(notify:)
