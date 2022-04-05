@@ -106,10 +106,17 @@ class Notification {
 
     static func getLargeIcon(_ icon:String)->UNNotificationAttachment{
         let id=Int.random(in:0...999);
-        let base64=String(icon[icon.index(after:icon.firstIndex(of:",") ?? icon.index(before:icon.startIndex))...]);
-        let data:Data=Data(base64Encoded:base64,options:.ignoreUnknownCharacters)!;
-        let image:UIImage=UIImage(data:data)!;
-        let attachment=UNNotificationAttachment.create("A\(id)",image)!;
+        var image:UIImage?=nil;
+        if(icon=="appIcon"){
+            image=Bundle.main.icon ?? UIImage(named:"largeIcon");
+        }
+        else{
+            let base64=String(icon[icon.index(after:icon.firstIndex(of:",") ?? icon.index(before:icon.startIndex))...]);
+            let data:Data=Data(base64Encoded:base64,options:.ignoreUnknownCharacters)!;
+            image=UIImage(data:data);
+        }
+        
+        let attachment=UNNotificationAttachment.create("A\(id)",image!)!;
         return attachment;
     }
 
@@ -144,6 +151,18 @@ extension UNNotificationAttachment {
         } 
         catch{
             print("error \(error.localizedDescription)");
+        }
+        return nil;
+    }
+}
+
+extension Bundle {
+    public var icon:UIImage?{
+        if let icons=infoDictionary?["CFBundleIcons"] as? [String:Any],
+            let primaryIcon=icons["CFBundlePrimaryIcon"] as? [String:Any],
+            let iconFiles=primaryIcon["CFBundleIconFiles"] as? [String],
+            let lastIcon=iconFiles.last{
+            return UIImage(named:lastIcon);
         }
         return nil;
     }
