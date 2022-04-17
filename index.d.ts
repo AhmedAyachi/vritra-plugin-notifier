@@ -15,14 +15,14 @@ interface Notifier{
         id?:number,
         title?:string,
         body?:string,
-        fullbody?:boolean,
-        icon?:string,
-        largeIcon?:"appIcon"|string,
+        fullbody?:boolean,//show all body text (respecting system characters limits)
+        icon?:string,//android only: edit notification icon
+        largeIcon?:"appIcon"|string,//base64 string or path to image file
         actions?:Action[],
-        once?:boolean,
-        sticky?:boolean,
+        once?:boolean,//android only: dismiss notification on action: default true
+        sticky?:boolean,//android only: prevent user from dismissing noti: default false
         subtext?:string,
-        color?:string,
+        color?:string,//android only: notification main text color
         onAction?(action:{
             ref:string,
             type:string,
