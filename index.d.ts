@@ -1,37 +1,101 @@
 declare const Notifier:Notifier;
 
 declare type Action={
+    /**
+    * Used to identify the action 
+    */
     ref?:string,
     type:"button"|"input"|"select",
     label:string,
+    /**
+    * The options of a select action 
+    */
     options:string[],
+    /**
+    * The placeholder of an input action 
+    */
     placeholder?:string,
+    /**
+    * The label color.
+    * Android only
+    */
     color?:string,
+    /**
+    * The action icon.
+    * Supports a path or a base64 string.
+    * Android <7 only. 
+    */
     icon?:string,
 };
 
 interface Notifier{
     notify(notification:{
+        /**
+        * Notification id.
+        * Used to dismiss the notification 
+        */
         id?:number,
         title?:string,
-        body?:string,
-        fullbody?:boolean,//show all body text (respecting system characters limits)
-        icon?:string,//android only: edit notification icon
-        largeIcon?:"appIcon"|string,//base64 string or path to image file
-        actions?:Action[],
-        once?:boolean,//android only: dismiss notification on action: default true
-        sticky?:boolean,//android only: prevent user from dismissing noti: default false
         subtext?:string,
-        color?:string,//android only: notification main text color
+        body?:string,
+        /**
+        * show all body text (respecting system characters limits).
+        * Default: false
+        */
+        fullbody?:boolean,
+        /**
+        * Edits notification icon
+        * Supports a path or a base64 string
+        * android only
+        */
+        icon?:string,
+        /**
+        * An icon that is shown on the middle right side of the notification. 
+        * Used to Attach an image to the notification. 
+        * Supports a base64 string or path to image file.
+        * The value "appIcon" will use the app icon.
+        */
+        largeIcon?:"appIcon"|string,
+        /**
+        * Notification actions.
+        * Allows up to 3 actions. 
+        */
+        actions?:Action[],
+        /**
+        * Dismiss notification on user interaction.
+        * Default: true
+        */
+        once?:boolean,
+        /**
+        * Prevents the user from dismissing the notification. 
+        * Android only.
+        * Default: false. 
+        */
+        sticky?:boolean,
+        /**
+        * Notification main text color.
+        * Supports an hex color code.
+        * Android only.
+        */
+        color?:string,
         onAction?(action:{
             ref:string,
             type:string,
+            /**
+            * The user input for actions with "input" type. 
+            */
             input:string,
         }):void,
     }):void;
     toast(props:{
         text:string,
+        /**
+        * Specifies how long the toast will last before disappearing.
+        */
         lasting:"short"|"long",
     }):void;
+    /**
+    * Dismissed notification with the specified id.
+    */
     dismiss(notificationId:number):void;
 }
