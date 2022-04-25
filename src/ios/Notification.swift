@@ -5,16 +5,23 @@ class Notification {
     let content=UNMutableNotificationContent();
     let props:[AnyHashable:Any];
     static var categories:Set<UNNotificationCategory>=[];
-    public var id:Int=0;
+    public var id:String="";
 
     init(_ props:[AnyHashable:Any]){
         self.props=props;
+        setId();
         content.title=props["title"] as? String ?? "";
         content.subtitle=props["subtext"] as? String ?? "";
         content.launchImageName="launchImageName";
         setBody();
         setAttachments();
         setActions();
+    }
+
+    private func setId(){
+        let code=props["id"] as? Int ?? Int.random(in:0...99999);
+        let once=props["once"] as? Bool ?? true;
+        self.id="\(code)\(once ? "":"_reaction")";
     }
 
     func setBody(){
@@ -34,26 +41,30 @@ class Notification {
     }
 
     func setActions(){
-        var id="\(Int.random(in:0...999))";
+        var categoryId="\(Int.random(in:0...9999))";
         var actions=props["actions"] as? [Any] ?? [];
         if !(actions.isEmpty){
             actions=Array<Any>(actions[..<(actions.count>3 ? 3:actions.count)]);
             var unactions:[UNNotificationAction]=[];
             actions.forEach({object in
-                let action=object as! [AnyHashable:Any];
-                let unaction=Notification.getUNAction(action);
-                unactions.append(contentsOf:unaction);
-                id=unaction[0].identifier+id;
+                if let action=object as? [AnyHashable:Any] {
+                    /* let unaction=Notification.getUNActions(action);
+                    unactions.append(contentsOf:unaction); */
+                    unactions=Notification.getUNActions(action);
+                    if(unactions.count>0){
+                        categoryId=unactions[0].identifier+categoryId;
+                    }
+                }
             });
             let category=UNNotificationCategory(
-                identifier:id,
+                identifier:categoryId,
                 actions:unactions,
                 intentIdentifiers:[],
                 options:[]
             );
             Notification.categories.insert(category);
             UNUserNotificationCenter.current().setNotificationCategories(Notification.categories);
-            content.categoryIdentifier=id;
+            content.categoryIdentifier=categoryId;
         }
     }
 
@@ -66,16 +77,16 @@ class Notification {
     } */
     
     func toRequest()->UNNotificationRequest{
-        self.id=props["id"] as? Int ?? Int.random(in:0...99999);
+        //self.id=props["id"] as? Int ?? Int.random(in:0...99999);
         let request=UNNotificationRequest(
-            identifier:"\(self.id)",
+            identifier:id,
             content:content,
             trigger:nil
         );
         return request;
     }
 
-    static func getUNAction(_ action:[AnyHashable:Any])->[UNNotificationAction]{
+    static func getUNActions(_ action:[AnyHashable:Any])->[UNNotificationAction]{
         let type=action["type"] as? String ?? "button";
         let ref="\(type)_\(action["ref"] as? String ?? "ref")";
         switch(type){

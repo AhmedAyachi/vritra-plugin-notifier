@@ -5,7 +5,10 @@ declare type Action={
     * Used to identify the action 
     */
     ref?:string,
-    type:"button"|"input"|"select",
+    /**
+    * Default: "button"
+    */
+    type?:"button"|"input"|"select",
     label:string,
     /**
     * The options of a select action 
@@ -62,8 +65,10 @@ interface Notifier{
         */
         actions?:Action[],
         /**
-        * Dismiss notification on user interaction.
+        * if true, Dismiss notification on user interaction.
         * Default: true
+        * @IOS
+        * Dismiss the notification and notify again.
         */
         once?:boolean,
         /**

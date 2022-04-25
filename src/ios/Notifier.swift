@@ -2,7 +2,7 @@
 
 class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
 
-    static var commands:[Int:CDVInvokedUrlCommand]=[:];
+    static var commands:[String:CDVInvokedUrlCommand]=[:];
 
     @objc(notify:)
     func notify(command:CDVInvokedUrlCommand){
@@ -24,13 +24,15 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
         }
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: (UNNotificationPresentationOptions)->Void){
+    func userNotificationCenter(_ center:UNUserNotificationCenter,willPresent notification:UNNotification,withCompletionHandler completionHandler:@escaping(UNNotificationPresentationOptions)->Void){
         completionHandler([.alert,.badge,.sound]);
     }
 
     func userNotificationCenter(_ center:UNUserNotificationCenter,didReceive response:UNNotificationResponse,withCompletionHandler completionHandler:@escaping()->Void){
-        if let id=Int(response.notification.request.identifier){
-            let actionId=response.actionIdentifier;
+        let id:String=response.notification.request.identifier;
+        print("id:",id);
+        let actionId:String=response.actionIdentifier;
+        if(actionId.contains("_")){
             let parts=actionId.split(separator:"_");
             let type=String(parts[0]);
             var data:[String:Any]=[
@@ -38,7 +40,7 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
                 "type":type,
                 "input":false,
             ];
-            if let textResponse=response as? UNTextInputNotificationResponse{
+            if let textResponse=response as? UNTextInputNotificationResponse {
                 data["input"]=textResponse.userText;
             }
             else if(type.hasPrefix("select")){
@@ -47,9 +49,13 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
             }
             if let command=Notifier.commands[id] {
                 success(command,data);
+                let reaction=id.contains("reaction");
                 Notifier.commands.removeValue(forKey:id);
+                if(reaction){
+                    self.notify(command:command);
+                }
             }
-        };
+        }
         completionHandler();
     }
 
