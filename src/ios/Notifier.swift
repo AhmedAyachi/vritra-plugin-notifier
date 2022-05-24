@@ -30,7 +30,6 @@ class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
 
     func userNotificationCenter(_ center:UNUserNotificationCenter,didReceive response:UNNotificationResponse,withCompletionHandler completionHandler:@escaping()->Void){
         let id:String=response.notification.request.identifier;
-        print("id:",id);
         let actionId:String=response.actionIdentifier;
         if(actionId.contains("_")){
             let parts=actionId.split(separator:"_");
