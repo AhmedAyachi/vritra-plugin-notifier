@@ -1,35 +1,5 @@
 declare const Notifier:Notifier;
 
-declare type Action={
-    /**
-    * Used to identify the action 
-    */
-    ref?:string,
-    /**
-    * Default: "button"
-    */
-    type?:"button"|"input"|"select",
-    label:string,
-    /**
-    * The options of a select action 
-    */
-    options:string[],
-    /**
-    * The placeholder of an input action 
-    */
-    placeholder?:string,
-    /**
-    * The label color.
-    * Android only
-    */
-    color?:string,
-    /**
-    * The action icon.
-    * Supports a path or a base64 string.
-    * Android <7 only. 
-    */
-    icon?:string,
-};
 
 interface Notifier{
     notify(notification:{
@@ -67,8 +37,6 @@ interface Notifier{
         /**
         * if true, Dismiss notification on user interaction.
         * Default: true
-        * @IOS
-        * Dismiss the notification and notify again.
         */
         once?:boolean,
         /**
@@ -87,7 +55,7 @@ interface Notifier{
             ref:string,
             type:string,
             /**
-            * The user input for actions with "input" type. 
+            * The user input for actions with type "input". 
             */
             input:string,
         }):void,
@@ -104,3 +72,34 @@ interface Notifier{
     */
     dismiss(notificationId:number):void;
 }
+
+type Action={
+    /**
+    * Used to identify the action 
+    */
+    ref?:string,
+    /**
+    * Default: "button"
+    */
+    type?:"button"|"input"|"select",
+    label:string,
+    /**
+    * The options of a select action 
+    */
+    options:string[],
+    /**
+    * The placeholder of an input action 
+    */
+    placeholder?:string,
+    /**
+    * The label color.
+    * Android only
+    */
+    color?:string,
+    /**
+    * The action icon.
+    * Supports a path or a base64 string.
+    * Android <7 only. 
+    */
+    icon?:string,
+};
