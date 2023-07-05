@@ -38,7 +38,6 @@
                 <param name="ios-package" value="Notifier" onload="false"/>
             </feature>
         </config-file>
-        <source-file src="src/ios/NotifierPlugin.swift"/>
         <source-file src="src/ios/Notifier.swift"/>
         <source-file src="src/ios/Notification.swift"/>
         <dependency 
