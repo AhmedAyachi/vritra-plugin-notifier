@@ -1,6 +1,6 @@
 
 
-class Notifier:NotifierPlugin,UNUserNotificationCenterDelegate{
+class Notifier:CordovaPlugin,UNUserNotificationCenterDelegate{
 
     static var commands:[String:CDVInvokedUrlCommand]=[:];
 

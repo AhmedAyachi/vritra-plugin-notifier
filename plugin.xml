@@ -41,6 +41,10 @@
         <source-file src="src/ios/NotifierPlugin.swift"/>
         <source-file src="src/ios/Notifier.swift"/>
         <source-file src="src/ios/Notification.swift"/>
+        <dependency 
+            id="cordova-plugin-swift-support" 
+            url="https://github.com/AhmedAyachi/cordova-plugin-swift-support"
+        />
     </platform>
 
     <platform name="browser">
