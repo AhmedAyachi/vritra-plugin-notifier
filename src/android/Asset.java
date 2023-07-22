@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import androidx.core.graphics.drawable.IconCompat;
 
 
-public class Asset{
+public class Asset {
 
     static final AssetManager assetManager=Notifier.context.getAssets();
     private Bitmap bitmap=null;

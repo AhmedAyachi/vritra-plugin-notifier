@@ -66,6 +66,18 @@ interface Notifier{
         * Specifies how long the toast will last before disappearing.
         */
         lasting:"short"|"long",
+        /**
+         * @default "bottom"
+         */
+        verticalAlign:"top"|"middle"|"bottom",
+        /**
+         * @default "black"
+         */
+        color:ToastColor,
+        /**
+         * @default "white"
+         */
+        backgroundColor:ToastColor,
     }):void;
     /**
     * Dismissed notification with the specified id.
@@ -103,3 +115,10 @@ type Action={
     */
     icon?:string,
 };
+
+type ToastColor=(
+    "black"|"blue"|"brown"|"cyan"|
+    "darkgray"|"gray"|"green"|"lightgray"|
+    "magenta"|"orange"|"purple"|"red"|
+    "yellow"|"white"|"transparent"|"#"
+)

@@ -12,7 +12,7 @@ import android.os.Bundle;
 import org.json.JSONException;
 
 
-public class ActionListener extends BroadcastReceiver{
+public class ActionListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context,Intent intent){

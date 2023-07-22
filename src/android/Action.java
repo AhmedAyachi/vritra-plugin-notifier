@@ -17,7 +17,7 @@ import android.app.PendingIntent;
 import androidx.core.app.RemoteInput;
 
 
-public class Action{
+public class Action {
 
     private JSONObject props=null;
     protected String ref=null;

@@ -14,11 +14,12 @@ import org.json.JSONException;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Base64;
+import android.graphics.Color;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 
-public class Notifier extends CordovaPlugin{
+public class Notifier extends CordovaPlugin {
 
     static Context context;
     static ApplicationInfo appinfo;
@@ -93,5 +94,14 @@ public class Notifier extends CordovaPlugin{
             bitmap=new Asset(path).toBitmap();
         }
         return bitmap;
+    }
+
+    static protected int getColor(String name){
+        switch(name){
+            case "brown": return  Color.parseColor("#964B00");
+            case "orange": return  Color.parseColor("#FFA500");
+            case "transparent": return Color.TRANSPARENT;
+            default: return Color.parseColor(name);
+        }
     }
 }
