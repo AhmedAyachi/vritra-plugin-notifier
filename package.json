@@ -1,6 +1,6 @@
 {
   "name": "corella-plugin-notifier",
-  "version": "2.0.0",
+  "version": "0.0.2",
   "description": "A cordova plugin for toast messages and local notifications",
   "types": "index.d.ts",
   "cordova": {
