@@ -1,9 +1,9 @@
-package com.ahmedayachi.notifier;
+package com.corella.notifier;
 
 
 import java.util.Random;
-import com.ahmedayachi.notifier.Notifier;
-import com.ahmedayachi.notifier.Action; 
+import com.corella.notifier.Notifier;
+import com.corella.notifier.Action; 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,6 +1,6 @@
-package com.ahmedayachi.notifier;
+package com.corella.notifier;
 
-import com.ahmedayachi.notifier.Notification;
+import com.corella.notifier.Notification;
 import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;

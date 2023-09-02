@@ -1,6 +1,6 @@
-package com.ahmedayachi.notifier;
+package com.corella.notifier;
 
-import com.ahmedayachi.notifier.Notifier;
+import com.corella.notifier.Notifier;
 import org.json.JSONObject;
 import android.widget.Toast;
 import android.widget.TextView;

@@ -1,9 +1,9 @@
-package com.ahmedayachi.notifier;
+package com.corella.notifier;
 
-import com.ahmedayachi.notifier.Notifier;
+import com.corella.notifier.Notifier;
 import java.util.ArrayList;
 import java.util.Random;
-import com.ahmedayachi.notifier.ActionListener;
+import com.corella.notifier.ActionListener;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import androidx.core.graphics.drawable.IconCompat;

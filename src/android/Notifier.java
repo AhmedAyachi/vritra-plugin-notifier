@@ -1,9 +1,9 @@
-package com.ahmedayachi.notifier;
+package com.corella.notifier;
 
 import org.apache.cordova.*;
-import com.ahmedayachi.notifier.Notification;
-import com.ahmedayachi.notifier.Asset;
-import com.ahmedayachi.notifier.ToastView;
+import com.corella.notifier.Notification;
+import com.corella.notifier.Asset;
+import com.corella.notifier.ToastView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.app.NotificationManager;

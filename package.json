@@ -1,18 +1,23 @@
 {
-  "name": "cordova-plugin-notifier",
+  "name": "corella-plugin-notifier",
   "version": "2.0.0",
-  "description": "cordova custom plugin notifier",
+  "description": "A cordova plugin for toast messages and local notifications",
   "types": "index.d.ts",
   "cordova": {
-    "id": "cordova-plugin-notifier",
+    "id": "corella-plugin-notifier",
     "platforms": [
-      "android"
+      "android","ios"
     ]
   },
   "keywords": [
-    "ecosystem:cordova",
-    "cordova-android"
+    "toast","toast messages",
+    "local notifications",
+    "notifications",
+    "cordova","corella",
+    "cordova-corella",
+    "cordova-android",
+    "cordova-ios"
   ],
   "author": "Ahmed Ayachi",
-  "license": "ISC"
+  "license": "MIT"
 }
