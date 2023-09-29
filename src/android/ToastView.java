@@ -9,34 +9,38 @@ import android.view.Gravity;
 import android.view.ViewOutlineProvider;
 import android.util.DisplayMetrics;
 import android.graphics.Outline;
+import android.os.Build;
 
 
 
-class ToastView{
+class ToastView {
     
     private JSONObject props=null;
     private Toast toast=null;
+    private View view=null;
 
     public ToastView(JSONObject props){
         if(props!=null){
             this.props=props;
             String text=props.optString("text","");
             toast=Toast.makeText(Notifier.context,text,getDuration());
-            View view=toast.getView();
-            setTextColor(view);
-            setBackgroundColor(view);
-            setBorderRadius(view);
-            setPosition();
+            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.R){
+                this.view=toast.getView();
+                setTextColor();
+                setBackgroundColor();
+                setBorderRadius();
+                setPosition();
+            }
         }
     }
 
-    private void setTextColor(View view){
+    private void setTextColor(){
         TextView textview=(TextView)view.findViewById(android.R.id.message);
         String textColor=props.optString("color","#000000");
         textview.setTextColor(Notifier.getColor(textColor));
     }
 
-    private void setBackgroundColor(View view){
+    private void setBackgroundColor(){
         String backgroundColor=props.optString("backgroundColor","white");
         view.setBackgroundColor(Notifier.getColor(backgroundColor));
         view.setAlpha(0.9f);
@@ -51,7 +55,7 @@ class ToastView{
         return duration;
     }
 
-    private void setBorderRadius(View view){
+    private void setBorderRadius(){
         view.setClipToOutline(true);
         view.setOutlineProvider(new ViewOutlineProvider(){
             @Override
@@ -82,8 +86,6 @@ class ToastView{
     }
 
     public void show(){
-        if(toast!=null){
-            toast.show();
-        }
+        if(toast!=null) toast.show();
     }
 }

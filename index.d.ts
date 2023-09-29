@@ -60,6 +60,11 @@ interface Notifier{
             input:string,
         }):void,
     }):void;
+    /**
+     * 
+     * @param props Toast message props
+     * @android custom toasts deprecated since android 11 (API 30).
+     */
     toast(props:{
         text:string,
         /**
