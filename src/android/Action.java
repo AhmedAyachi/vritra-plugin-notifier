@@ -1,9 +1,9 @@
-package com.corella.notifier;
+package com.wurm.notifier;
 
-import com.corella.notifier.Notifier;
+import com.wurm.notifier.Notifier;
 import java.util.ArrayList;
 import java.util.Random;
-import com.corella.notifier.ActionListener;
+import com.wurm.notifier.ActionListener;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import androidx.core.graphics.drawable.IconCompat;

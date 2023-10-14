@@ -1,6 +1,6 @@
-package com.corella.notifier;
+package com.wurm.notifier;
 
-import com.corella.notifier.Notifier;
+import com.wurm.notifier.Notifier;
 import org.json.JSONObject;
 import android.widget.Toast;
 import android.widget.TextView;

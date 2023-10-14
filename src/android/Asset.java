@@ -1,6 +1,6 @@
-package com.corella.notifier;
+package com.wurm.notifier;
 
-import com.corella.notifier.Notifier;
+import com.wurm.notifier.Notifier;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import java.io.InputStream;

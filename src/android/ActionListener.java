@@ -1,6 +1,6 @@
-package com.corella.notifier;
+package com.wurm.notifier;
 
-import com.corella.notifier.Notification;
+import com.wurm.notifier.Notification;
 import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,9 +1,9 @@
-package com.corella.notifier;
+package com.wurm.notifier;
 
 
 import java.util.Random;
-import com.corella.notifier.Notifier;
-import com.corella.notifier.Action; 
+import com.wurm.notifier.Notifier;
+import com.wurm.notifier.Action; 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;

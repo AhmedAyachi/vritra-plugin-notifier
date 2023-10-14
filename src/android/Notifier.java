@@ -1,9 +1,9 @@
-package com.corella.notifier;
+package com.wurm.notifier;
 
 import org.apache.cordova.*;
-import com.corella.notifier.Notification;
-import com.corella.notifier.Asset;
-import com.corella.notifier.ToastView;
+import com.wurm.notifier.Notification;
+import com.wurm.notifier.Asset;
+import com.wurm.notifier.ToastView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.app.NotificationManager;
