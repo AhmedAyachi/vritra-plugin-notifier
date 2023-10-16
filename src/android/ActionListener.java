@@ -1,6 +1,6 @@
-package com.wurm.notifier;
+package com.vritra.notifier;
 
-import com.wurm.notifier.Notification;
+import com.vritra.notifier.Notification;
 import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;

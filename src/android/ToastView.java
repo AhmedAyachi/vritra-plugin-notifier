@@ -1,6 +1,6 @@
-package com.wurm.notifier;
+package com.vritra.notifier;
 
-import com.wurm.notifier.Notifier;
+import com.vritra.notifier.Notifier;
 import org.json.JSONObject;
 import android.widget.Toast;
 import android.widget.TextView;

@@ -1,10 +1,10 @@
 {
-  "name": "wurm-plugin-notifier",
+  "name": "vritra-plugin-notifier",
   "version": "0.0.1",
   "description": "A cordova plugin for toast messages and local notifications",
   "types": "index.d.ts",
   "cordova": {
-    "id": "wurm-plugin-notifier",
+    "id": "vritra-plugin-notifier",
     "platforms": [
       "android","ios"
     ]
@@ -13,8 +13,8 @@
     "toast","toast messages",
     "local notifications",
     "notifications",
-    "cordova","wurm",
-    "cordova-wurm",
+    "cordova","vritra",
+    "cordova-vritra",
     "cordova-android",
     "cordova-ios"
   ],

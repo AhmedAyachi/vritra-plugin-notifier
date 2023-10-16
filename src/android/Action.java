@@ -1,9 +1,9 @@
-package com.wurm.notifier;
+package com.vritra.notifier;
 
-import com.wurm.notifier.Notifier;
+import com.vritra.notifier.Notifier;
 import java.util.ArrayList;
 import java.util.Random;
-import com.wurm.notifier.ActionListener;
+import com.vritra.notifier.ActionListener;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import androidx.core.graphics.drawable.IconCompat;

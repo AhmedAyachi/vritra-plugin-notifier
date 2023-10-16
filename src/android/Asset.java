@@ -1,6 +1,6 @@
-package com.wurm.notifier;
+package com.vritra.notifier;
 
-import com.wurm.notifier.Notifier;
+import com.vritra.notifier.Notifier;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import java.io.InputStream;

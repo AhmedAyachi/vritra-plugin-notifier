@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin 
-    id="wurm-plugin-notifier" 
+    id="vritra-plugin-notifier" 
     version="0.0.1" 
     xmlns="http://apache.org/cordova/ns/plugins/1.0" 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,22 +14,22 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="Notifier">
-                <param name="android-package" value="com.wurm.notifier.Notifier"/>
+                <param name="android-package" value="com.vritra.notifier.Notifier"/>
             </feature>
         </config-file>
         <config-file parent="application" target="AndroidManifest.xml">
             <receiver 
-                android:name="com.wurm.notifier.ActionListener"
+                android:name="com.vritra.notifier.ActionListener"
                 android:enabled="true"
                 android:exported="true"
             />
         </config-file>
-        <source-file src="src/android/Notifier.java" target-dir="src/com/wurm/Notifier"/>
-        <source-file src="src/android/Notification.java" target-dir="src/com/wurm/Notifier"/>
-        <source-file src="src/android/ToastView.java" target-dir="src/com/wurm/Notifier"/>
-        <source-file src="src/android/Asset.java" target-dir="src/com/wurm/Notifier"/>
-        <source-file src="src/android/Action.java" target-dir="src/com/wurm/Notifier"/>
-        <source-file src="src/android/ActionListener.java" target-dir="src/com/wurm/Notifier"/>
+        <source-file src="src/android/Notifier.java" target-dir="src/com/vritra/Notifier"/>
+        <source-file src="src/android/Notification.java" target-dir="src/com/vritra/Notifier"/>
+        <source-file src="src/android/ToastView.java" target-dir="src/com/vritra/Notifier"/>
+        <source-file src="src/android/Asset.java" target-dir="src/com/vritra/Notifier"/>
+        <source-file src="src/android/Action.java" target-dir="src/com/vritra/Notifier"/>
+        <source-file src="src/android/ActionListener.java" target-dir="src/com/vritra/Notifier"/>
     </platform>
 
     <platform name="ios">
@@ -42,8 +42,8 @@
         <source-file src="src/ios/Notification.swift"/>
         <source-file src="src/ios/ToastView.swift"/>
         <dependency 
-            id="wurm-plugin-swift-support" 
-            url="https://github.com/wurm/wurm-plugin-swift-support"
+            id="vritra-plugin-swift-support" 
+            url="https://github.com/vritra/vritra-plugin-swift-support"
         />
     </platform>
 

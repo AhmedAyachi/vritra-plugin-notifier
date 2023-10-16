@@ -1,9 +1,9 @@
-package com.wurm.notifier;
+package com.vritra.notifier;
 
 import org.apache.cordova.*;
-import com.wurm.notifier.Notification;
-import com.wurm.notifier.Asset;
-import com.wurm.notifier.ToastView;
+import com.vritra.notifier.Notification;
+import com.vritra.notifier.Asset;
+import com.vritra.notifier.ToastView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.app.NotificationManager;

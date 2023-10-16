@@ -1,9 +1,9 @@
-package com.wurm.notifier;
+package com.vritra.notifier;
 
 
 import java.util.Random;
-import com.wurm.notifier.Notifier;
-import com.wurm.notifier.Action; 
+import com.vritra.notifier.Notifier;
+import com.vritra.notifier.Action; 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
