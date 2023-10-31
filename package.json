@@ -1,6 +1,6 @@
 {
   "name": "vritra-plugin-notifier",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A cordova plugin for toast messages and local notifications",
   "types": "index.d.ts",
   "cordova": {
@@ -10,14 +10,17 @@
     ]
   },
   "keywords": [
-    "toast","toast messages",
-    "local notifications",
-    "notifications",
-    "cordova","vritra",
-    "cordova-vritra",
-    "cordova-android",
-    "cordova-ios"
+    "cordova","plugin",
+    "vritra","notifier",
+    "toast","messages",
+    "local","notifications",
+    "android","ios"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AhmedAyachi/vritra-plugin-notifier"
+  },
+  "homepage": "https://vritrajs.github.io/#cordovaplugins#notifier",
   "author": "Ahmed Ayachi",
   "license": "MIT"
 }
