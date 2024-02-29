@@ -41,10 +41,6 @@
         <source-file src="src/ios/Notifier.swift"/>
         <source-file src="src/ios/Notification.swift"/>
         <source-file src="src/ios/ToastView.swift"/>
-        <dependency 
-            id="vritra-plugin-swift-support" 
-            url="https://github.com/AhmedAyachi/vritra-plugin-swift-support"
-        />
     </platform>
 
     <platform name="browser">
@@ -52,5 +48,10 @@
             <clobbers target="Notifier"/>
         </js-module>
     </platform>
+
+    <dependency 
+        id="vritra-plugin-common"
+        url="https://github.com/AhmedAyachi/vritra-plugin-common"
+    />
     
 </plugin>

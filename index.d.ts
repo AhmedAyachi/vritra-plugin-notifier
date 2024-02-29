@@ -72,15 +72,46 @@ interface Notifier{
         */
         lasting:"short"|"long",
         /**
-         * @default "bottom"
+         * @notice If provided, a view is used instead of a native toast
+         * because native toasts are not customizable
          */
+        style?:{
+            /**
+             * @default "bottom"
+             */
+            verticalAlign:"top"|"middle"|"bottom",
+            /**
+             * The toast text color
+             * @default "black"
+             */
+            color:ToastColor,
+            /**
+             * @default "white"
+             */
+            backgroundColor:ToastColor,
+            /**
+             * @default 0.9
+             */
+            opacity:number,
+            /**
+             * @default 60
+             */
+            borderRadius:number,
+        },
+        /**
+        * @default "bottom"
+        * @deprecated use the style object instead
+        */
         verticalAlign:"top"|"middle"|"bottom",
         /**
+         * The toast text color
          * @default "black"
+         * @deprecated use the style object instead
          */
         color:ToastColor,
         /**
          * @default "white"
+         * @deprecated use the style object instead
          */
         backgroundColor:ToastColor,
     }):void;

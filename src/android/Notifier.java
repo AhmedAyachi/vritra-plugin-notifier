@@ -1,5 +1,6 @@
 package com.vritra.notifier;
 
+import com.vritra.common.*;
 import org.apache.cordova.*;
 import com.vritra.notifier.Notification;
 import com.vritra.notifier.Asset;
@@ -19,17 +20,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 
-public class Notifier extends CordovaPlugin {
+public class Notifier extends VritraPlugin {
 
-    static Context context;
     static ApplicationInfo appinfo;
     static final String channelId="NotifierChannel";
 
     @Override
     public void initialize(CordovaInterface cordova,CordovaWebView webView){
-        Notifier.context=cordova.getContext();
+        super.initialize(cordova,webView);
         Notifier.appinfo=Notifier.context.getApplicationInfo();
-        //Notifier.packageName=Notifier.context.getPackageName();
         this.createNotificationChannel();
     }
 
@@ -66,15 +65,22 @@ public class Notifier extends CordovaPlugin {
     }
 
     private void toast(JSONObject props,CallbackContext callbackContext){
-        final ToastView toastview=new ToastView(props);
-        toastview.show();
+        if(props!=null){
+            final AppCompatActivity activity=this.cordova.getActivity();
+            final ToastView toastview=new ToastView(activity,props);
+            activity.runOnUiThread(new Runnable(){
+                public void run(){
+                    toastview.show();
+                }
+            });
+        }
     }
 
     private void createNotificationChannel(){
         final AppCompatActivity activity=cordova.getActivity();
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
-            CharSequence name="NotifierChannel";
-            String description="Notifier channel";
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+            CharSequence name="local channel";
+            String description="local notification channel";
             int importance=NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel=new NotificationChannel(channelId,name,importance);
             channel.setDescription(description);
@@ -94,14 +100,5 @@ public class Notifier extends CordovaPlugin {
             bitmap=new Asset(path).toBitmap();
         }
         return bitmap;
-    }
-
-    static protected int getColor(String name){
-        switch(name){
-            case "brown": return  Color.parseColor("#964B00");
-            case "orange": return  Color.parseColor("#FFA500");
-            case "transparent": return Color.TRANSPARENT;
-            default: return Color.parseColor(name);
-        }
     }
 }
