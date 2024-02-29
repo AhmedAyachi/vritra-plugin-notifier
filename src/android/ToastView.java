@@ -143,9 +143,6 @@ class ToastView {
 
     public void show(){
         if(this.view!=null){
-            final DisplayMetrics displayMetrics=Notifier.resources.getDisplayMetrics();
-            final int screenWidth=displayMetrics.widthPixels;
-            final int screenHeight=displayMetrics.heightPixels;
             ((ViewGroup)parentView).addView(this.view);
             view.bringToFront();
             parentView.requestLayout();
