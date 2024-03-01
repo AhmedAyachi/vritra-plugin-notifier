@@ -86,7 +86,7 @@ interface Notifier{
              */
             color:ToastColor,
             /**
-             * @default "white"
+             * @default "#ebebeb"
              */
             backgroundColor:ToastColor,
             /**

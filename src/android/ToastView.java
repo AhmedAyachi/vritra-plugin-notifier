@@ -29,12 +29,12 @@ class ToastView {
     public ToastView(AppCompatActivity activity,JSONObject props){
         this.props=props;
         this.style=props.optJSONObject("style");
-        this.parentView=activity.getWindow().getDecorView().getRootView();
         final String text=props.optString("text","");
         if(style==null){
             toast=Toast.makeText(activity,text,this.getLasting());
         }
         else{
+            this.parentView=activity.getWindow().getDecorView().getRootView();
             this.view=new TextView(activity);
             view.setText(text);
             this.setFontSize();

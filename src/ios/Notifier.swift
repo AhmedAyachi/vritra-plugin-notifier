@@ -1,6 +1,6 @@
 
 
-class Notifier:CordovaPlugin,UNUserNotificationCenterDelegate{
+class Notifier:VritraPlugin,UNUserNotificationCenterDelegate{
 
     static var commands:[String:CDVInvokedUrlCommand]=[:];
 
@@ -73,8 +73,7 @@ class Notifier:CordovaPlugin,UNUserNotificationCenterDelegate{
     func toast(command:CDVInvokedUrlCommand){
         if let props=command.arguments[0] as? [String:Any]{
             DispatchQueue.main.async(execute:{[self] in
-                let mainview=self.viewController.view!;
-                let toastview=ToastView(mainview,props);
+                let toastview=ToastView(self.viewController,props);
                 toastview.show();
             });
         }
