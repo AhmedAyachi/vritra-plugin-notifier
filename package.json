@@ -1,6 +1,6 @@
 {
   "name": "vritra-plugin-notifier",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A cordova plugin for toast messages and local notifications",
   "types": "index.d.ts",
   "cordova": {

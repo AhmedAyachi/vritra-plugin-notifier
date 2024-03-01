@@ -3,4 +3,10 @@
 A cordova plugin for toast messages and local notifications for android and iOS platforms.
 Defines a global **Notifier** object.
 
+# Installation
+After installing globally the cordova cli, execute:
+```
+cordova plugin add vritra-plugin-notifier
+```
+
 [See documentation](https://vritrajs.github.io/#cordovaplugins#notifier)
