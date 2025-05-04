@@ -69,8 +69,9 @@ interface Notifier{
         text:string,
         /**
         * Specifies how long the toast will last before disappearing.
+        * @default "short"
         */
-        lasting:"short"|"long",
+        lasting?:"short"|"long",
         /**
          * @notice If provided, a view is used instead of a native toast
          * because native toasts are not customizable
@@ -79,41 +80,41 @@ interface Notifier{
             /**
              * @default "bottom"
              */
-            verticalAlign:"top"|"middle"|"bottom",
+            verticalAlign?:"top"|"middle"|"bottom",
             /**
              * The toast text color
              * @default "black"
              */
-            color:ToastColor,
+            color?:ToastColor,
             /**
              * @default "#ebebeb"
              */
-            backgroundColor:ToastColor,
+            backgroundColor?:ToastColor,
             /**
              * @default 0.9
              */
-            opacity:number,
+            opacity?:number,
             /**
              * @default 60
              */
-            borderRadius:number,
+            borderRadius?:number,
         },
         /**
         * @default "bottom"
         * @deprecated use the style object instead
         */
-        verticalAlign:"top"|"middle"|"bottom",
+        verticalAlign?:"top"|"middle"|"bottom",
         /**
          * The toast text color
          * @default "black"
          * @deprecated use the style object instead
          */
-        color:ToastColor,
+        color?:ToastColor,
         /**
          * @default "white"
          * @deprecated use the style object instead
          */
-        backgroundColor:ToastColor,
+        backgroundColor?:ToastColor,
     }):void;
     /**
     * Dismissed notification with the specified id.
