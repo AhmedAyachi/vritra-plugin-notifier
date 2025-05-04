@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
 import androidx.core.text.HtmlCompat;
 import android.content.Intent;
+import android.os.Build;
 import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -34,7 +35,7 @@ public class Notification {
         this.props=props;
         id=props.optInt("id",new Random().nextInt(1000));
         once=props.optBoolean("once",true);
-        
+
         this.setTitle();
         this.setBody();
         this.setSmallIcon();
@@ -47,7 +48,14 @@ public class Notification {
         final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent=PendingIntent.getActivity(Notifier.context,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(
+            Notifier.context,
+            id,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT |
+            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_IMMUTABLE : 0)
+        );
+
         builder.setContentIntent(pendingIntent).setAutoCancel(once);
         try{
             callbacks.put(Integer.toString(id),callbackcontext);
