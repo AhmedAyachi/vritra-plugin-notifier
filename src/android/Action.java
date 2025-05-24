@@ -60,7 +60,7 @@ public class Action {
         intent.putExtra("notificationId",notificationId);
         intent.putExtra("once",props.optBoolean("once"));
 
-        final PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        final PendingIntent pendingIntent=PendingIntent.getBroadcast(
             Notifier.context,
             new Random().nextInt(1000),
             intent,

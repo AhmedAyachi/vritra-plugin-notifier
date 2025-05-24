@@ -85,11 +85,11 @@ interface Notifier{
              * The toast text color
              * @default "black"
              */
-            color?:ToastColor,
+            color?:VritraColor,
             /**
              * @default "#ebebeb"
              */
-            backgroundColor?:ToastColor,
+            backgroundColor?:VritraColor,
             /**
              * @default 0.9
              */
@@ -109,12 +109,12 @@ interface Notifier{
          * @default "black"
          * @deprecated use the style object instead
          */
-        color?:ToastColor,
+        color?:VritraColor,
         /**
          * @default "white"
          * @deprecated use the style object instead
          */
-        backgroundColor?:ToastColor,
+        backgroundColor?:VritraColor,
     }):void;
     /**
     * Dismissed notification with the specified id.
@@ -153,7 +153,7 @@ type Action={
     icon?:string,
 };
 
-type ToastColor=(
+type VritraColor=(
     "black"|"blue"|"brown"|"cyan"|
     "darkgray"|"gray"|"green"|"lightgray"|
     "magenta"|"orange"|"purple"|"red"|

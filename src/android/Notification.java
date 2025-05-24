@@ -48,7 +48,7 @@ public class Notification {
         final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(
+        final PendingIntent pendingIntent=PendingIntent.getActivity(
             Notifier.context,
             id,
             intent,

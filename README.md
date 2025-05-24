@@ -12,15 +12,15 @@ cordova plugin add vritra-plugin-notifier
 Example of use:
 ```js
 Notifier.notify({
-	title: 'Name of the app',
-	body: 'Some message',
-})
+    title:"Name of the app",
+    body:"Some message",
+});
 ```
 
 ```js
 Notifier.toast({
-	text: 'Some message',
-})
+    text:"Some message",
+});
 ```
 
 [See documentation](https://vritrajs.github.io/#cordovaplugins#notifier)
