@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import androidx.core.text.HtmlCompat;
 import android.text.Spanned;
 import android.content.Intent;
+import android.os.Build;
 import android.app.PendingIntent;
 import androidx.core.app.RemoteInput;
 
@@ -58,8 +59,14 @@ public class Action {
         final int notificationId=props.optInt("notificationId");
         intent.putExtra("notificationId",notificationId);
         intent.putExtra("once",props.optBoolean("once"));
-        
-        final PendingIntent pendingIntent=PendingIntent.getBroadcast(Notifier.context,new Random().nextInt(1000),intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        final PendingIntent pendingIntent = PendingIntent.getBroadcast(
+            Notifier.context,
+            new Random().nextInt(1000),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT |
+            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_IMMUTABLE : 0)
+        );
         
         final Builder builder=new Builder(icon,span!=null?span:label,pendingIntent);
         if(!type.equals("button")){
