@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.app.PendingIntent;
 import androidx.core.app.RemoteInput;
+//import android.util.Log;
 
 
 public class Action {
@@ -29,8 +30,8 @@ public class Action {
 
     public Action(JSONObject props){
         this.props=props;
-        ref=props.optString("ref","ref");
-        type=props.optString("type","button");
+        this.ref=props.optString("ref","ref");
+        this.type=props.optString("type","button");
         this.setLabel();
         this.setIcon();
     }
@@ -49,7 +50,7 @@ public class Action {
         }
     }
 
-    public void addTo(NotificationCompat.Builder notibuilder){
+    public void addTo(NotificationCompat.Builder notifBuilder){
         final Intent intent=new Intent(Notifier.context,ActionListener.class);
         /* intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -61,19 +62,17 @@ public class Action {
         intent.putExtra("once",props.optBoolean("once"));
 
         final PendingIntent pendingIntent=PendingIntent.getBroadcast(
-            Notifier.context,
-            new Random().nextInt(1000),
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT |
-            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_IMMUTABLE : 0)
+            Notifier.context,new Random().nextInt(1000),intent,
+            Build.VERSION.SDK_INT>Build.VERSION_CODES.R?PendingIntent.FLAG_MUTABLE:PendingIntent.FLAG_UPDATE_CURRENT
         );
         
-        final Builder builder=new Builder(icon,span!=null?span:label,pendingIntent);
+        final Builder builder=new Builder(icon,span==null?label:span,pendingIntent);
         if(!type.equals("button")){
-            final RemoteInput.Builder inputbuilder=new RemoteInput.Builder(ref);
+            final String placeholder=props.optString("placeholder","");
+            final RemoteInput.Builder inputBuilder=new RemoteInput.Builder(ref);
             if(type.equals("input")){
-                String placeholder=props.optString("placeholder","");
-                inputbuilder.setLabel(placeholder);
+                inputBuilder.setLabel(placeholder);
+                builder.setAllowGeneratedReplies(true);
             }
             else if(type.equals("select")){
                 final JSONArray options=props.optJSONArray("options");
@@ -87,15 +86,15 @@ public class Action {
                         }
                     }
                     if(choices.size()>0){
-                        inputbuilder.setChoices(choices.toArray(new CharSequence[choices.size()]));
-                        inputbuilder.setLabel("Choose from the options above");
+                        inputBuilder.setChoices(choices.toArray(new CharSequence[choices.size()]));
+                        inputBuilder.setLabel(placeholder);
                         builder.setAllowGeneratedReplies(true);
                     }
                 }
             }
-            builder.addRemoteInput(inputbuilder.build());
+            builder.addRemoteInput(inputBuilder.build());
         }
         
-        notibuilder.addAction(builder.build());
+        notifBuilder.addAction(builder.build());
     }
 }

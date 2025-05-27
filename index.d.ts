@@ -33,7 +33,7 @@ interface Notifier{
         * Notification actions.
         * Allows up to 3 actions. 
         */
-        actions?:Action[],
+        actions?:Action<keyof ActionOptions>[],
         /**
         * if true, Dismiss notification on user interaction.
         * Default: true
@@ -122,7 +122,7 @@ interface Notifier{
     dismiss(notificationId:number):void;
 }
 
-type Action={
+type Action<Type extends keyof ActionOptions>={
     /**
     * Used to identify the action 
     */
@@ -130,16 +130,8 @@ type Action={
     /**
     * Default: "button"
     */
-    type?:"button"|"input"|"select",
+    type?:Type,
     label:string,
-    /**
-    * The options of a select action 
-    */
-    options:string[],
-    /**
-    * The placeholder of an input action 
-    */
-    placeholder?:string,
     /**
     * The label color.
     * Android only
@@ -151,7 +143,18 @@ type Action={
     * Android <7 only. 
     */
     icon?:string,
-};
+}&ActionOptions[Type];
+
+type ActionOptions={
+    "input":{
+        placeholder?:string,
+    },
+    "button":{},
+    "select":{
+        options:string[],
+        placeholder?:string,
+    },
+}
 
 type VritraColor=(
     "black"|"blue"|"brown"|"cyan"|

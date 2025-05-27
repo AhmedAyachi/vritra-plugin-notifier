@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin 
-    id="vritra-plugin-notifier" version="1.1.1" 
+    id="vritra-plugin-notifier" version="1.1.2" 
     xmlns="http://apache.org/cordova/ns/plugins/1.0" 
     xmlns:android="http://schemas.android.com/apk/res/android"
 >
@@ -15,6 +15,7 @@
             <feature name="Notifier">
                 <param name="android-package" value="com.vritra.notifier.Notifier"/>
             </feature>
+            <preference name="android-targetSdkVersion" value="31"/>
         </config-file>
         <config-file parent="application" target="AndroidManifest.xml">
             <receiver 
@@ -52,5 +53,4 @@
         id="vritra-plugin-common"
         url="https://github.com/AhmedAyachi/vritra-plugin-common"
     />
-    
 </plugin>

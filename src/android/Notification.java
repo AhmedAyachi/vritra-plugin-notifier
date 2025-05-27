@@ -48,12 +48,9 @@ public class Notification {
         final Intent intent=new Intent(Notifier.context,activity.getClass());
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        final PendingIntent pendingIntent=PendingIntent.getActivity(
-            Notifier.context,
-            id,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT |
-            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_IMMUTABLE : 0)
+        PendingIntent pendingIntent=PendingIntent.getActivity(
+            Notifier.context,id,intent,
+            Build.VERSION.SDK_INT>Build.VERSION_CODES.R?PendingIntent.FLAG_IMMUTABLE:PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         builder.setContentIntent(pendingIntent).setAutoCancel(once);
@@ -109,15 +106,18 @@ public class Notification {
     private void setLargeIcon(){
         String icon=props.optString("largeIcon");
         if(icon.equals("appIcon")){
-            final Drawable drawable=Notifier.appinfo.loadIcon(Notifier.context.getPackageManager());
-            final Bitmap bitMapIcon=((BitmapDrawable)drawable).getBitmap();
-            builder.setLargeIcon(bitMapIcon);
+            try{
+                final Drawable drawable=Notifier.appinfo.loadIcon(Notifier.context.getPackageManager());
+                final Bitmap bitMapIcon=((BitmapDrawable)drawable).getBitmap();
+                builder.setLargeIcon(bitMapIcon);
+            }
+            catch(Exception exception){
+
+            }
         }
         else{
             final Bitmap bitmap=Notifier.getBitmapIcon(icon);
-            if(bitmap!=null){
-                builder.setLargeIcon(bitmap);
-            }
+            if(bitmap!=null) builder.setLargeIcon(bitmap);
         }
     }
 
